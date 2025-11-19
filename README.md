@@ -32,7 +32,7 @@ Mobile entry point: `mobile/app/_layout.tsx`
 ## Getting Started
 
 ```bash
-git clone https://github.com/your-org/daily-buddies.git
+git clone https://github.com/eimg/daily-buddies.git
 ```
 
 ```bash
