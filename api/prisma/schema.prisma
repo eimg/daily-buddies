@@ -1,0 +1,315 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Family {
+  id           String             @id @default(cuid())
+  name         String
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  dailyStreakReward   Int        @default(3)
+  weeklyStreakReward  Int        @default(5)
+  monthlyStreakReward Int        @default(15)
+  yearlyStreakReward  Int        @default(100)
+  users        User[]
+  tasks        Task[]
+  rewards      RewardDefinition[]
+  teamMissions TeamMission[]
+  routineTemplates RoutineTemplate[]
+  streakRewards StreakRewardLog[]
+  privileges   PrivilegeDefinition[]
+  privilegeRequests PrivilegeRequest[]
+}
+
+model User {
+  id               String             @id @default(cuid())
+  username         String             @unique
+  email            String?            @unique
+  passwordHash     String
+  name             String
+  role             UserRole
+  avatarTone       String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  familyId         String?
+  family           Family?            @relation(fields: [familyId], references: [id])
+  taskCompletions  TaskCompletion[]
+  moods            MoodEntry[]
+  sentNotes        KindNote[]         @relation("SentNotes")
+  receivedNotes    KindNote[]         @relation("ReceivedNotes")
+  rewardsCreated   RewardDefinition[]
+  tasksCreated     Task[]
+  redemptions      RewardRedemption[]
+  children         User[]             @relation("ParentChildren")
+  parentId         String?
+  parent           User?              @relation("ParentChildren", fields: [parentId], references: [id])
+  teamParticipants TeamParticipant[]
+  missionRewards   MissionReward[]
+  templatesCreated RoutineTemplate[] @relation("TemplateCreator")
+  routineAssignments RoutineAssignment[] @relation("RoutineChild")
+  taskAssignments TaskAssignment[] @relation("TaskChild")
+  streakRewards StreakRewardLog[]
+  privilegeRequests PrivilegeRequest[]
+  privilegesCreated PrivilegeDefinition[]
+}
+
+model Task {
+  id            String           @id @default(cuid())
+  familyId      String
+  family        Family           @relation(fields: [familyId], references: [id])
+  title         String
+  description   String?
+  icon          String?
+  reminderStyle ReminderStyle    @default(FRIENDLY)
+  frequency     FrequencyType    @default(DAILY)
+  daysOfWeek    Json?
+  points        Int              @default(1)
+  active        Boolean          @default(true)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  createdById   String
+  createdBy     User             @relation(fields: [createdById], references: [id])
+  routineTemplateId String?
+  routineTemplate RoutineTemplate? @relation(fields: [routineTemplateId], references: [id])
+  completions   TaskCompletion[]
+  assignments   TaskAssignment[]
+}
+
+model TaskCompletion {
+  id          String           @id @default(cuid())
+  taskId      String
+  task        Task             @relation(fields: [taskId], references: [id])
+  childId     String
+  child       User             @relation(fields: [childId], references: [id])
+  date        DateTime
+  status      CompletionStatus @default(PENDING)
+  seedsEarned Int              @default(0)
+  createdAt   DateTime         @default(now())
+
+  @@unique([taskId, childId, date])
+}
+
+model RewardDefinition {
+  id          String             @id @default(cuid())
+  familyId    String
+  family      Family             @relation(fields: [familyId], references: [id])
+  title       String
+  description String?
+  cost        Int
+  createdAt   DateTime           @default(now())
+  createdById String
+  createdBy   User               @relation(fields: [createdById], references: [id])
+  redemptions RewardRedemption[]
+}
+
+model RewardRedemption {
+  id         String           @id @default(cuid())
+  rewardId   String
+  reward     RewardDefinition @relation(fields: [rewardId], references: [id])
+  childId    String
+  child      User             @relation(fields: [childId], references: [id])
+  seedsSpent Int
+  createdAt  DateTime         @default(now())
+  note       String?
+}
+
+model StreakRewardLog {
+  id         String        @id @default(cuid())
+  childId    String
+  child      User          @relation(fields: [childId], references: [id])
+  familyId   String
+  family     Family        @relation(fields: [familyId], references: [id])
+  period     StreakPeriod
+  streakValue Int
+  seedsEarned Int
+  awardedAt  DateTime      @default(now())
+}
+
+model PrivilegeDefinition {
+  id        String   @id @default(cuid())
+  familyId  String
+  family    Family   @relation(fields: [familyId], references: [id])
+  title     String
+  description String?
+  cost      Int      @default(1)
+  createdAt DateTime @default(now())
+  createdById String
+  createdBy User @relation(fields: [createdById], references: [id])
+  requests  PrivilegeRequest[]
+}
+
+model PrivilegeRequest {
+  id          String   @id @default(cuid())
+  privilegeId String
+  privilege   PrivilegeDefinition @relation(fields: [privilegeId], references: [id])
+  childId     String
+  child       User     @relation(fields: [childId], references: [id])
+  familyId    String
+  family      Family   @relation(fields: [familyId], references: [id])
+  status      PrivilegeRequestStatus @default(PENDING)
+  cost        Int      @default(0)
+  note        String?
+  createdAt   DateTime @default(now())
+  resolvedAt  DateTime?
+}
+
+model MoodEntry {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  mood      MoodLevel
+  note      String?
+  createdAt DateTime  @default(now())
+}
+
+model KindNote {
+  id          String   @id @default(cuid())
+  fromUserId  String
+  toUserId    String
+  templateKey String
+  message     String
+  createdAt   DateTime @default(now())
+
+  fromUser User @relation("SentNotes", fields: [fromUserId], references: [id])
+  toUser   User @relation("ReceivedNotes", fields: [toUserId], references: [id])
+}
+
+model TeamMission {
+  id           String            @id @default(cuid())
+  familyId     String
+  family       Family            @relation(fields: [familyId], references: [id])
+  title        String
+  description  String?
+  status       TeamMissionStatus @default(ACTIVE)
+  seedsReward  Int               @default(5)
+  createdAt    DateTime          @default(now())
+  completedAt  DateTime?
+  participants TeamParticipant[]
+  rewards      MissionReward[]
+}
+
+model TeamParticipant {
+  id        String      @id @default(cuid())
+  missionId String
+  mission   TeamMission @relation(fields: [missionId], references: [id])
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+}
+
+model MissionReward {
+  id          String      @id @default(cuid())
+  missionId   String
+  mission     TeamMission @relation(fields: [missionId], references: [id])
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  seedsEarned Int         @default(0)
+  createdAt   DateTime    @default(now())
+}
+
+model RoutineTemplate {
+  id          String           @id @default(cuid())
+  familyId    String
+  family      Family           @relation(fields: [familyId], references: [id])
+  name        String
+  description String?
+  frequency   FrequencyType    @default(DAILY)
+  daysOfWeek  Json?
+  rewardNote  String?
+  createdById String
+  createdBy   User             @relation("TemplateCreator", fields: [createdById], references: [id])
+  createdAt   DateTime         @default(now())
+  items       RoutineTemplateItem[]
+  tasks       Task[]
+  assignments RoutineAssignment[]
+}
+
+model RoutineTemplateItem {
+  id            String          @id @default(cuid())
+  templateId    String
+  template      RoutineTemplate @relation(fields: [templateId], references: [id])
+  title         String
+  description   String?
+  icon          String?
+  points        Int             @default(1)
+  reminderStyle ReminderStyle   @default(FRIENDLY)
+}
+
+model RoutineAssignment {
+  id         String          @id @default(cuid())
+  templateId String
+  template   RoutineTemplate @relation(fields: [templateId], references: [id])
+  childId    String
+  child      User            @relation("RoutineChild", fields: [childId], references: [id])
+  createdAt  DateTime        @default(now())
+}
+
+model TaskAssignment {
+  id        String   @id @default(cuid())
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id])
+  childId   String
+  child     User     @relation("TaskChild", fields: [childId], references: [id])
+  assignedAt DateTime @default(now())
+
+  @@unique([taskId, childId])
+}
+
+enum UserRole {
+  PARENT
+  CHILD
+}
+
+enum ReminderStyle {
+  FRIENDLY
+  TIMER
+}
+
+enum FrequencyType {
+  DAILY
+  WEEKDAYS
+  WEEKENDS
+  CUSTOM
+}
+
+enum CompletionStatus {
+  PENDING
+  COMPLETED
+  SKIPPED
+}
+
+enum MoodLevel {
+  SUNNY
+  CALM
+  TIRED
+  FRUSTRATED
+  OVERWHELMED
+}
+
+enum StreakPeriod {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+enum PrivilegeRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  TERMINATED
+}
+
+enum TeamMissionStatus {
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
