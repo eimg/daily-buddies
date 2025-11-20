@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AuthProvider } from "../src/context/AuthContext";
 
 export default function RootLayout() {
@@ -8,13 +9,15 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        />
-      </AuthProvider>
+      <SafeAreaProvider>
+        <AuthProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          />
+        </AuthProvider>
+      </SafeAreaProvider>
     </QueryClientProvider>
   );
 }

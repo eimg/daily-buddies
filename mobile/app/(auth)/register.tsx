@@ -11,12 +11,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "../../src/context/AuthContext";
 
 export default function RegisterScreen() {
   const router = useRouter();
   const { registerParent } = useAuth();
+  const insets = useSafeAreaInsets();
   const [familyName, setFamilyName] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -50,12 +51,17 @@ export default function RegisterScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={["top", "bottom"]}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.flex}
       >
-        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+        <ScrollView
+          contentContainerStyle={[styles.container, { paddingBottom: 24 + insets.bottom }]}
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="none"
+          showsVerticalScrollIndicator={false}
+        >
           <View style={styles.card}>
             <Text style={styles.title}>Create Your Daily Buddies Space ✨</Text>
             <Text style={styles.subtitle}>
@@ -104,6 +110,7 @@ export default function RegisterScreen() {
             <Field label="Password">
               <TextInput
                 style={styles.input}
+                autoCapitalize="none"
                 secureTextEntry
                 value={password}
                 onChangeText={setPassword}

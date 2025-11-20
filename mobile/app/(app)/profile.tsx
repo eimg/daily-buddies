@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../../src/context/AuthContext";
@@ -27,6 +27,7 @@ const TONE_COLORS: Record<string, string> = {
 export default function ProfileScreen() {
   const router = useRouter();
   const { profile, token, refreshProfile, logout } = useAuth();
+  const insets = useSafeAreaInsets();
 
   const [name, setName] = useState(profile?.name ?? "");
   const [avatarTone, setAvatarTone] = useState(profile?.avatarTone ?? "sunrise");
@@ -73,12 +74,17 @@ export default function ProfileScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={["top", "bottom"]}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.flex}
       >
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView
+          contentContainerStyle={[styles.container, { paddingBottom: 48 + insets.bottom }]}
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="none"
+          showsVerticalScrollIndicator={false}
+        >
           <View style={styles.headerRow}>
             <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
               <Text style={styles.backLabel}>← Back</Text>

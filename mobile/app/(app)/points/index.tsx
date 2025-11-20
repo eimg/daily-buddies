@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../../../src/context/AuthContext";
@@ -43,6 +43,7 @@ export default function PointsScreen() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { token, profile } = useAuth();
+  const insets = useSafeAreaInsets();
   const isParent = profile?.role === "PARENT";
 
   const [form, setForm] = useState<FormState>({
@@ -115,12 +116,17 @@ export default function PointsScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={["top", "bottom"]}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.select({ ios: "padding", android: undefined })}
+        behavior={Platform.select({ ios: "padding", android: "height" })}
       >
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView
+          contentContainerStyle={[styles.container, { paddingBottom: 20 + insets.bottom }]}
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="none"
+          showsVerticalScrollIndicator={false}
+        >
           <View style={styles.headerRow}>
             <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
               <Text style={styles.backLabel}>← Back</Text>

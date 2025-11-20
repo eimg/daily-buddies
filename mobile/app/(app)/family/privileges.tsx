@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   Alert,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -24,6 +26,7 @@ import {
 export default function FamilyPrivilegesScreen() {
   const router = useRouter();
   const { token, profile } = useAuth();
+  const insets = useSafeAreaInsets();
   const isParent = profile?.role === "PARENT";
   const [form, setForm] = useState({ title: "", cost: "1", description: "" });
 
@@ -86,7 +89,7 @@ export default function FamilyPrivilegesScreen() {
 
   if (!isParent) {
     return (
-      <SafeAreaView style={styles.safe}>
+      <SafeAreaView style={styles.safe} edges={["top", "bottom"]}>
         <View style={styles.fallback}>
           <Text style={styles.lightText}>Only parents can edit privileges.</Text>
           <TouchableOpacity style={styles.primaryButton} onPress={() => router.replace("/home")}>
@@ -102,163 +105,173 @@ export default function FamilyPrivilegesScreen() {
   const activeTickets = requests.filter((request) => request.status === "APPROVED");
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.headerRow}>
-          <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-            <Text style={styles.backLabel}>← Back</Text>
-          </TouchableOpacity>
-          <Text style={styles.header}>Manage Privilege 🌿</Text>
-        </View>
-        <Text style={styles.subtitle}>Design experiences, approve requests, and tidy up tickets.</Text>
+    <SafeAreaView style={styles.safe} edges={["top", "bottom"]}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <ScrollView
+          contentContainerStyle={[styles.container, { paddingBottom: 32 + insets.bottom }]}
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="none"
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.headerRow}>
+            <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+              <Text style={styles.backLabel}>← Back</Text>
+            </TouchableOpacity>
+            <Text style={styles.header}>Manage Privilege 🌿</Text>
+          </View>
+          <Text style={styles.subtitle}>Design experiences, approve requests, and tidy up tickets.</Text>
 
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Privilege ideas</Text>
-          <Text style={styles.lightText}>
-            Keep options playful and growth-focused. Remove anything that no longer fits your family.
-          </Text>
-          <View style={styles.privilegeList}>
-            {(privilegesQuery.data ?? []).length === 0 ? (
-              <Text style={styles.lightText}>No privileges created yet.</Text>
-            ) : (
-              privilegesQuery.data!.map((privilege) => (
-                <View key={privilege.id} style={styles.privilegeRow}>
-                  <View style={styles.privilegeInfo}>
-                    <Text style={styles.privilegeTitle}>{privilege.title}</Text>
-                    {privilege.description ? <Text style={styles.lightText}>{privilege.description}</Text> : null}
+          <View style={styles.card}>
+            <Text style={styles.sectionTitle}>Privilege ideas</Text>
+            <Text style={styles.lightText}>
+              Keep options playful and growth-focused. Remove anything that no longer fits your family.
+            </Text>
+            <View style={styles.privilegeList}>
+              {(privilegesQuery.data ?? []).length === 0 ? (
+                <Text style={styles.lightText}>No privileges created yet.</Text>
+              ) : (
+                privilegesQuery.data!.map((privilege) => (
+                  <View key={privilege.id} style={styles.privilegeRow}>
+                    <View style={styles.privilegeInfo}>
+                      <Text style={styles.privilegeTitle}>{privilege.title}</Text>
+                      {privilege.description ? <Text style={styles.lightText}>{privilege.description}</Text> : null}
+                    </View>
+                    <View style={styles.privilegeActions}>
+                      <Text style={styles.privilegeCost}>{privilege.cost} seeds</Text>
+                      <TouchableOpacity
+                        onPress={() => deletePrivilegeMutation.mutate(privilege.id)}
+                        style={styles.smallGhostButton}
+                      >
+                        <Text style={styles.smallGhostText}>Remove</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                  <View style={styles.privilegeActions}>
-                    <Text style={styles.privilegeCost}>{privilege.cost} seeds</Text>
+                ))
+              )}
+            </View>
+          </View>
+          <View style={styles.card}>
+            <Text style={styles.sectionTitle}>Pending requests</Text>
+            {pendingRequests.length === 0 ? (
+              <Text style={styles.lightText}>No requests yet.</Text>
+            ) : (
+              pendingRequests.map((request) => (
+                <View key={request.id} style={styles.requestRow}>
+                  <View style={styles.requestHeader}>
+                    <View style={styles.requestInfo}>
+                      <Text style={styles.privilegeTitle}>{request.privilege.title}</Text>
+                      <Text style={styles.lightText}>
+                        {request.childName ?? "Unknown child"} • {request.cost} seeds
+                      </Text>
+                    </View>
+                    <View style={[styles.requestStatusPill, styles.requestStatusPending]}>
+                      <Text style={styles.requestStatusText}>pending</Text>
+                    </View>
+                  </View>
+                  {request.note ? <Text style={styles.lightText}>Note: {request.note}</Text> : null}
+                  <View style={styles.requestActions}>
                     <TouchableOpacity
-                      onPress={() => deletePrivilegeMutation.mutate(privilege.id)}
-                      style={styles.smallGhostButton}
+                      style={styles.approveButton}
+                      onPress={() => decideMutation.mutate({ requestId: request.id, status: "APPROVED" })}
+                      disabled={decideMutation.isPending}
                     >
-                      <Text style={styles.smallGhostText}>Remove</Text>
+                      <Text style={styles.approveText}>{decideMutation.isPending ? "..." : "Approve"}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.smallGhostButton}
+                      onPress={() => decideMutation.mutate({ requestId: request.id, status: "REJECTED" })}
+                      disabled={decideMutation.isPending}
+                    >
+                      <Text style={styles.smallGhostText}>Reject</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
               ))
             )}
           </View>
-        </View>
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Pending requests</Text>
-          {pendingRequests.length === 0 ? (
-            <Text style={styles.lightText}>No requests yet.</Text>
-          ) : (
-            pendingRequests.map((request) => (
-              <View key={request.id} style={styles.requestRow}>
-                <View style={styles.requestHeader}>
-                  <View style={styles.requestInfo}>
-                    <Text style={styles.privilegeTitle}>{request.privilege.title}</Text>
-                    <Text style={styles.lightText}>
-                      {request.childName ?? "Unknown child"} • {request.cost} seeds
-                    </Text>
-                  </View>
-                  <View style={[styles.requestStatusPill, styles.requestStatusPending]}>
-                    <Text style={styles.requestStatusText}>pending</Text>
-                  </View>
-                </View>
-                {request.note ? <Text style={styles.lightText}>Note: {request.note}</Text> : null}
-                <View style={styles.requestActions}>
-                  <TouchableOpacity
-                    style={styles.approveButton}
-                    onPress={() => decideMutation.mutate({ requestId: request.id, status: "APPROVED" })}
-                    disabled={decideMutation.isPending}
-                  >
-                    <Text style={styles.approveText}>{decideMutation.isPending ? "..." : "Approve"}</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.smallGhostButton}
-                    onPress={() => decideMutation.mutate({ requestId: request.id, status: "REJECTED" })}
-                    disabled={decideMutation.isPending}
-                  >
-                    <Text style={styles.smallGhostText}>Reject</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            ))
-          )}
-        </View>
 
-        <View style={styles.card}>
-          <View style={styles.cardHeaderRow}>
-            <Text style={styles.sectionTitle}>Active tickets</Text>
-            <TouchableOpacity style={styles.linkButton} onPress={() => router.push("/privileges/history")}>
-              <Text style={styles.linkText}>Ticket history</Text>
+          <View style={styles.card}>
+            <View style={styles.cardHeaderRow}>
+              <Text style={styles.sectionTitle}>Active tickets</Text>
+              <TouchableOpacity style={styles.linkButton} onPress={() => router.push("/privileges/history")}>
+                <Text style={styles.linkText}>Ticket history</Text>
+              </TouchableOpacity>
+            </View>
+            {activeTickets.length === 0 ? (
+              <Text style={styles.lightText}>No active tickets.</Text>
+            ) : (
+              activeTickets.map((ticket) => (
+                <View key={ticket.id} style={styles.requestRow}>
+                  <View style={styles.requestHeader}>
+                    <View style={styles.requestInfo}>
+                      <Text style={styles.privilegeTitle}>{ticket.privilege.title}</Text>
+                      <Text style={styles.lightText}>
+                        {ticket.childName ?? "Unknown child"} • {ticket.cost} seeds
+                      </Text>
+                    </View>
+                    <View style={[styles.requestStatusPill, styles.requestStatusApproved]}>
+                      <Text style={styles.requestStatusText}>approved</Text>
+                    </View>
+                  </View>
+                  {ticket.note ? <Text style={styles.lightText}>Note: {ticket.note}</Text> : null}
+                  <TouchableOpacity
+                    style={[styles.smallGhostButton, styles.terminateButton]}
+                    onPress={() => terminateMutation.mutate(ticket.id)}
+                    disabled={terminateMutation.isPending}
+                  >
+                    <Text style={styles.terminateText}>
+                      {terminateMutation.isPending ? "Terminating..." : "Terminate"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              ))
+            )}
+          </View>
+
+          <View style={styles.card}>
+            <Text style={styles.sectionTitle}>Add privilege</Text>
+            <Text style={styles.lightText}>Add new ideas at the end of the day so kids have something to look forward to.</Text>
+            <PrivilegeInput
+              label="Title"
+              value={form.title}
+              onChangeText={(value) => setForm((prev) => ({ ...prev, title: value }))}
+            />
+            <PrivilegeInput
+              label="Cost"
+              value={form.cost}
+              keyboardType="numeric"
+              onChangeText={(value) => setForm((prev) => ({ ...prev, cost: value }))}
+            />
+            <PrivilegeInput
+              label="Description"
+              value={form.description}
+              onChangeText={(value) => setForm((prev) => ({ ...prev, description: value }))}
+            />
+            <TouchableOpacity
+              style={[styles.primaryButton, createPrivilegeMutation.isPending && styles.disabled]}
+              onPress={() => {
+                if (!form.title.trim()) {
+                  Alert.alert("Title required", "Give the privilege a short title.");
+                  return;
+                }
+                createPrivilegeMutation.mutate({
+                  title: form.title.trim(),
+                  cost: Number(form.cost) || 1,
+                  description: form.description || undefined,
+                });
+              }}
+              disabled={createPrivilegeMutation.isPending}
+            >
+              <Text style={styles.primaryText}>
+                {createPrivilegeMutation.isPending ? "Adding..." : "Add privilege"}
+              </Text>
             </TouchableOpacity>
           </View>
-          {activeTickets.length === 0 ? (
-            <Text style={styles.lightText}>No active tickets.</Text>
-          ) : (
-            activeTickets.map((ticket) => (
-              <View key={ticket.id} style={styles.requestRow}>
-                <View style={styles.requestHeader}>
-                  <View style={styles.requestInfo}>
-                    <Text style={styles.privilegeTitle}>{ticket.privilege.title}</Text>
-                    <Text style={styles.lightText}>
-                      {ticket.childName ?? "Unknown child"} • {ticket.cost} seeds
-                    </Text>
-                  </View>
-                  <View style={[styles.requestStatusPill, styles.requestStatusApproved]}>
-                    <Text style={styles.requestStatusText}>approved</Text>
-                  </View>
-                </View>
-                {ticket.note ? <Text style={styles.lightText}>Note: {ticket.note}</Text> : null}
-                <TouchableOpacity
-                  style={[styles.smallGhostButton, styles.terminateButton]}
-                  onPress={() => terminateMutation.mutate(ticket.id)}
-                  disabled={terminateMutation.isPending}
-                >
-                  <Text style={styles.terminateText}>
-                    {terminateMutation.isPending ? "Terminating..." : "Terminate"}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            ))
-          )}
-        </View>
-
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Add privilege</Text>
-          <Text style={styles.lightText}>Add new ideas at the end of the day so kids have something to look forward to.</Text>
-          <PrivilegeInput
-            label="Title"
-            value={form.title}
-            onChangeText={(value) => setForm((prev) => ({ ...prev, title: value }))}
-          />
-          <PrivilegeInput
-            label="Cost"
-            value={form.cost}
-            keyboardType="numeric"
-            onChangeText={(value) => setForm((prev) => ({ ...prev, cost: value }))}
-          />
-          <PrivilegeInput
-            label="Description"
-            value={form.description}
-            onChangeText={(value) => setForm((prev) => ({ ...prev, description: value }))}
-          />
-          <TouchableOpacity
-            style={[styles.primaryButton, createPrivilegeMutation.isPending && styles.disabled]}
-            onPress={() => {
-              if (!form.title.trim()) {
-                Alert.alert("Title required", "Give the privilege a short title.");
-                return;
-              }
-              createPrivilegeMutation.mutate({
-                title: form.title.trim(),
-                cost: Number(form.cost) || 1,
-                description: form.description || undefined,
-              });
-            }}
-            disabled={createPrivilegeMutation.isPending}
-          >
-            <Text style={styles.primaryText}>
-              {createPrivilegeMutation.isPending ? "Adding..." : "Add privilege"}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

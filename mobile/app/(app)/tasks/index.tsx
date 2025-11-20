@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useAuth } from "../../../src/context/AuthContext";
@@ -51,6 +51,7 @@ const TONE_COLORS: Record<string, string> = {
 
 export default function TasksScreen() {
   const { profile, token } = useAuth();
+  const insets = useSafeAreaInsets();
   const queryClient = useQueryClient();
   const router = useRouter();
   const isParent = profile?.role === "PARENT";
@@ -206,7 +207,12 @@ export default function TasksScreen() {
     const manualTasks = tasks.filter((task) => !task.routineName);
 
     return (
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        contentContainerStyle={[styles.container, { paddingBottom: 24 + insets.bottom }]}
+        keyboardShouldPersistTaps="always"
+        keyboardDismissMode="none"
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.headerRow}>
           <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
             <Text style={styles.backLabel}>← Back</Text>
@@ -399,7 +405,12 @@ export default function TasksScreen() {
     const tasks = (tasksQuery.data as ChildTaskSummary[]) ?? [];
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView
+        contentContainerStyle={[styles.container, { paddingBottom: 24 + insets.bottom }]}
+        keyboardShouldPersistTaps="always"
+        keyboardDismissMode="none"
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={styles.header}>My Missions</Text>
         {tasks.length === 0 && <Text style={styles.lightText}>No tasks assigned yet.</Text>}
         {tasks.map((task) => (
@@ -432,9 +443,9 @@ export default function TasksScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={["top", "bottom"]}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.flex}
       >
         {isParent ? parentView() : childView()}

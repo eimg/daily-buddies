@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import {
   Alert,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -17,6 +19,7 @@ import { fetchFamilyStreakSettings, updateFamilyStreakSettings } from "../../../
 export default function RewardsScreen() {
   const router = useRouter();
   const { token, profile } = useAuth();
+  const insets = useSafeAreaInsets();
   const [form, setForm] = useState({ daily: "0", weekly: "0", monthly: "0", yearly: "0" });
 
   const streakQuery = useQuery({
@@ -57,74 +60,84 @@ export default function RewardsScreen() {
   const isParent = profile?.role === "PARENT";
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.headerRow}>
-          <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-            <Text style={styles.backLabel}>← Back</Text>
-          </TouchableOpacity>
-          <Text style={styles.header}>Streak Rewards ✨</Text>
-        </View>
-
-        {!isParent ? (
-          <View style={styles.card}>
-            <Text style={styles.sectionTitle}>Rewards overview</Text>
-            <Text style={styles.lightText}>
-              Only parents can configure streak rewards. Ask your parent if you’d like to see new privilege ideas in your
-              Privilege Center screen.
-            </Text>
+    <SafeAreaView style={styles.safe} edges={["top", "bottom"]}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <ScrollView
+          contentContainerStyle={[styles.container, { paddingBottom: 32 + insets.bottom }]}
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="none"
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.headerRow}>
+            <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+              <Text style={styles.backLabel}>← Back</Text>
+            </TouchableOpacity>
+            <Text style={styles.header}>Streak Rewards ✨</Text>
           </View>
-        ) : (
-          <>
-            <View style={styles.card}>
-              <Text style={styles.sectionTitle}>Streak rewards</Text>
-              <Text style={styles.lightText}>
-                Daily rewards trigger when all assigned tasks finish. Weekly (day 7), monthly (day 31), and yearly (day 365)
-                bonuses land when the streak stays intact.
-              </Text>
-            <RewardInput
-              label="Daily reward"
-              value={form.daily}
-              keyboardType="numeric"
-              onChangeText={(value) => setForm((prev) => ({ ...prev, daily: value }))}
-            />
-            <RewardInput
-              label="Weekly reward"
-              value={form.weekly}
-              keyboardType="numeric"
-              onChangeText={(value) => setForm((prev) => ({ ...prev, weekly: value }))}
-            />
-            <RewardInput
-              label="Monthly reward"
-              value={form.monthly}
-              keyboardType="numeric"
-              onChangeText={(value) => setForm((prev) => ({ ...prev, monthly: value }))}
-            />
-            <RewardInput
-              label="Yearly reward"
-              value={form.yearly}
-              keyboardType="numeric"
-              onChangeText={(value) => setForm((prev) => ({ ...prev, yearly: value }))}
-            />
-              <TouchableOpacity
-                style={[styles.primaryButton, mutation.isPending && styles.disabled]}
-                onPress={() =>
-                  mutation.mutate({
-                    dailyStreakReward: Number(form.daily) || 0,
-                    weeklyStreakReward: Number(form.weekly) || 0,
-                    monthlyStreakReward: Number(form.monthly) || 0,
-                    yearlyStreakReward: Number(form.yearly) || 0,
-                  })
-                }
-                disabled={mutation.isPending}
-              >
-                <Text style={styles.primaryText}>{mutation.isPending ? "Saving..." : "Save"}</Text>
-              </TouchableOpacity>
-            </View>
 
-          </>
-        )}
-      </ScrollView>
+          {!isParent ? (
+            <View style={styles.card}>
+              <Text style={styles.sectionTitle}>Rewards overview</Text>
+              <Text style={styles.lightText}>
+                Only parents can configure streak rewards. Ask your parent if you’d like to see new privilege ideas in your
+                Privilege Center screen.
+              </Text>
+            </View>
+          ) : (
+            <>
+              <View style={styles.card}>
+                <Text style={styles.sectionTitle}>Streak rewards</Text>
+                <Text style={styles.lightText}>
+                  Daily rewards trigger when all assigned tasks finish. Weekly (day 7), monthly (day 31), and yearly (day 365)
+                  bonuses land when the streak stays intact.
+                </Text>
+              <RewardInput
+                label="Daily reward"
+                value={form.daily}
+                keyboardType="numeric"
+                onChangeText={(value) => setForm((prev) => ({ ...prev, daily: value }))}
+              />
+              <RewardInput
+                label="Weekly reward"
+                value={form.weekly}
+                keyboardType="numeric"
+                onChangeText={(value) => setForm((prev) => ({ ...prev, weekly: value }))}
+              />
+              <RewardInput
+                label="Monthly reward"
+                value={form.monthly}
+                keyboardType="numeric"
+                onChangeText={(value) => setForm((prev) => ({ ...prev, monthly: value }))}
+              />
+              <RewardInput
+                label="Yearly reward"
+                value={form.yearly}
+                keyboardType="numeric"
+                onChangeText={(value) => setForm((prev) => ({ ...prev, yearly: value }))}
+              />
+                <TouchableOpacity
+                  style={[styles.primaryButton, mutation.isPending && styles.disabled]}
+                  onPress={() =>
+                    mutation.mutate({
+                      dailyStreakReward: Number(form.daily) || 0,
+                      weeklyStreakReward: Number(form.weekly) || 0,
+                      monthlyStreakReward: Number(form.monthly) || 0,
+                      yearlyStreakReward: Number(form.yearly) || 0,
+                    })
+                  }
+                  disabled={mutation.isPending}
+                >
+                  <Text style={styles.primaryText}>{mutation.isPending ? "Saving..." : "Save"}</Text>
+                </TouchableOpacity>
+              </View>
+
+            </>
+          )}
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
