@@ -29,6 +29,7 @@ model Family {
   privileges   PrivilegeDefinition[]
   privilegeRequests PrivilegeRequest[]
   pointAdjustments PointAdjustment[]
+  nudgeSettings NudgeSetting[]
 }
 
 model User {
@@ -63,6 +64,7 @@ model User {
   privilegesCreated PrivilegeDefinition[]
   pointAdjustmentsGiven PointAdjustment[] @relation("ParentAdjustments")
   pointAdjustmentsReceived PointAdjustment[] @relation("ChildAdjustments")
+  nudgeSettings NudgeSetting[]
 }
 
 model Task {
@@ -177,6 +179,23 @@ model PointAdjustment {
   type        PointAdjustmentType
   note        String?
   createdAt   DateTime               @default(now())
+}
+
+model NudgeSetting {
+  id        String   @id @default(cuid())
+  familyId  String
+  family    Family   @relation(fields: [familyId], references: [id])
+  childId   String
+  child     User     @relation(fields: [childId], references: [id])
+  type      String
+  label     String
+  time      String
+  enabled   Boolean  @default(true)
+  message   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([childId, type])
 }
 
 model MoodEntry {

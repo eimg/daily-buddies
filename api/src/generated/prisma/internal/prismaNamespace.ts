@@ -400,6 +400,7 @@ export const ModelName = {
   PrivilegeDefinition: 'PrivilegeDefinition',
   PrivilegeRequest: 'PrivilegeRequest',
   PointAdjustment: 'PointAdjustment',
+  NudgeSetting: 'NudgeSetting',
   MoodEntry: 'MoodEntry',
   KindNote: 'KindNote',
   TeamMission: 'TeamMission',
@@ -424,7 +425,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "family" | "user" | "task" | "taskCompletion" | "rewardDefinition" | "rewardRedemption" | "streakRewardLog" | "privilegeDefinition" | "privilegeRequest" | "pointAdjustment" | "moodEntry" | "kindNote" | "teamMission" | "teamParticipant" | "missionReward" | "routineTemplate" | "routineTemplateItem" | "routineAssignment" | "taskAssignment"
+    modelProps: "family" | "user" | "task" | "taskCompletion" | "rewardDefinition" | "rewardRedemption" | "streakRewardLog" | "privilegeDefinition" | "privilegeRequest" | "pointAdjustment" | "nudgeSetting" | "moodEntry" | "kindNote" | "teamMission" | "teamParticipant" | "missionReward" | "routineTemplate" | "routineTemplateItem" | "routineAssignment" | "taskAssignment"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1165,6 +1166,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.PointAdjustmentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.PointAdjustmentCountAggregateOutputType> | number
+        }
+      }
+    }
+    NudgeSetting: {
+      payload: Prisma.$NudgeSettingPayload<ExtArgs>
+      fields: Prisma.NudgeSettingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NudgeSettingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NudgeSettingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NudgeSettingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NudgeSettingPayload>
+        }
+        findFirst: {
+          args: Prisma.NudgeSettingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NudgeSettingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NudgeSettingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NudgeSettingPayload>
+        }
+        findMany: {
+          args: Prisma.NudgeSettingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NudgeSettingPayload>[]
+        }
+        create: {
+          args: Prisma.NudgeSettingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NudgeSettingPayload>
+        }
+        createMany: {
+          args: Prisma.NudgeSettingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NudgeSettingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NudgeSettingPayload>[]
+        }
+        delete: {
+          args: Prisma.NudgeSettingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NudgeSettingPayload>
+        }
+        update: {
+          args: Prisma.NudgeSettingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NudgeSettingPayload>
+        }
+        deleteMany: {
+          args: Prisma.NudgeSettingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NudgeSettingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NudgeSettingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NudgeSettingPayload>[]
+        }
+        upsert: {
+          args: Prisma.NudgeSettingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NudgeSettingPayload>
+        }
+        aggregate: {
+          args: Prisma.NudgeSettingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNudgeSetting>
+        }
+        groupBy: {
+          args: Prisma.NudgeSettingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NudgeSettingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NudgeSettingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NudgeSettingCountAggregateOutputType> | number
         }
       }
     }
@@ -2014,6 +2089,22 @@ export const PointAdjustmentScalarFieldEnum = {
 export type PointAdjustmentScalarFieldEnum = (typeof PointAdjustmentScalarFieldEnum)[keyof typeof PointAdjustmentScalarFieldEnum]
 
 
+export const NudgeSettingScalarFieldEnum = {
+  id: 'id',
+  familyId: 'familyId',
+  childId: 'childId',
+  type: 'type',
+  label: 'label',
+  time: 'time',
+  enabled: 'enabled',
+  message: 'message',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NudgeSettingScalarFieldEnum = (typeof NudgeSettingScalarFieldEnum)[keyof typeof NudgeSettingScalarFieldEnum]
+
+
 export const MoodEntryScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2374,6 +2465,7 @@ export type GlobalOmitConfig = {
   privilegeDefinition?: Prisma.PrivilegeDefinitionOmit
   privilegeRequest?: Prisma.PrivilegeRequestOmit
   pointAdjustment?: Prisma.PointAdjustmentOmit
+  nudgeSetting?: Prisma.NudgeSettingOmit
   moodEntry?: Prisma.MoodEntryOmit
   kindNote?: Prisma.KindNoteOmit
   teamMission?: Prisma.TeamMissionOmit

@@ -411,6 +411,41 @@ export async function createPointEntry(
   });
 }
 
+export type NudgeSetting = {
+  id: string;
+  childId: string;
+  childName?: string | null;
+  childAvatarTone?: string | null;
+  type: string;
+  label: string;
+  time: string;
+  message?: string | null;
+  enabled: boolean;
+  updatedAt: string;
+};
+
+export async function fetchNudges(token: string, params: { childId?: string } = {}) {
+  const search = params.childId ? `?childId=${params.childId}` : "";
+  return request<NudgeSetting[]>(`/nudges${search}`, {
+    method: "GET",
+    token,
+  });
+}
+
+export async function updateNudges(
+  token: string,
+  payload: {
+    childId: string;
+    nudges: Array<{ type: string; time: string; enabled: boolean; message?: string | null }>;
+  },
+) {
+  return request<NudgeSetting[]>(`/nudges`, {
+    method: "PATCH",
+    token,
+    body: payload,
+  });
+}
+
 export type ChildTaskSummary = {
   id: string;
   title: string;

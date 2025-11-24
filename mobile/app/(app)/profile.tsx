@@ -15,6 +15,7 @@ import { useRouter } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../../src/context/AuthContext";
 import { updateProfile } from "../../src/services/api";
+import * as Notifications from "expo-notifications";
 
 const TONE_COLORS: Record<string, string> = {
   sunrise: "#fb923c",
@@ -123,12 +124,38 @@ export default function ProfileScreen() {
             >
               <Text style={styles.primaryText}>{mutation.isPending ? "Saving..." : "Save"}</Text>
             </TouchableOpacity>
+            <View style={styles.divider} />
+            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+              <Text style={styles.logoutButtonText}>Logout</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.testButton}
+              onPress={() => {
+                Notifications.setNotificationChannelAsync("nudges", {
+                  name: "Nudges",
+                  importance: Notifications.AndroidImportance.DEFAULT,
+                })
+                  .then(() =>
+                    Notifications.requestPermissionsAsync({
+                      ios: { allowAlert: true, allowBadge: true, allowSound: true },
+                    }),
+                  )
+                  .then(() =>
+                    Notifications.scheduleNotificationAsync({
+                      content: { title: "Test nudge", body: "Hello from test button" },
+                      trigger: {
+                        type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+                        seconds: 3,
+                      },
+                    }),
+                  )
+                  .then(() => console.log("test notification scheduled"))
+                  .catch((err) => console.error("notif test error", err));
+              }}
+            >
+              <Text style={styles.testButtonText}>Trigger test notification</Text>
+            </TouchableOpacity>
           </View>
-
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutButtonText}>Logout</Text>
-          </TouchableOpacity>
-
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -290,16 +317,34 @@ const styles = StyleSheet.create({
     height: 12,
     borderRadius: 6,
   },
+  divider: {
+    height: 1,
+    backgroundColor: "#e5e7eb",
+    marginTop: 4,
+  },
   logoutButton: {
-    marginTop: 12,
     borderWidth: 1,
     borderColor: "#fecaca",
     borderRadius: 16,
     paddingVertical: 14,
+    marginTop: 4,
     alignItems: "center",
   },
   logoutButtonText: {
     color: "#dc2626",
+    fontWeight: "700",
+  },
+  testButton: {
+    marginTop: 8,
+    paddingVertical: 12,
+    borderRadius: 12,
+    backgroundColor: "#eef2ff",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#c7d2fe",
+  },
+  testButtonText: {
+    color: "#4338ca",
     fontWeight: "700",
   },
 });

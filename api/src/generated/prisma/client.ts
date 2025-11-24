@@ -93,6 +93,11 @@ export type PrivilegeRequest = Prisma.PrivilegeRequestModel
  */
 export type PointAdjustment = Prisma.PointAdjustmentModel
 /**
+ * Model NudgeSetting
+ * 
+ */
+export type NudgeSetting = Prisma.NudgeSettingModel
+/**
  * Model MoodEntry
  * 
  */

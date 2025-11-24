@@ -94,6 +94,12 @@ export default function FamilyScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.ghostButton}
+                onPress={() => router.push("/family/nudges")}
+              >
+                <Text style={styles.ghostText}>Nudges & Reminders</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.ghostButton}
                 onPress={() => router.push("/points")}
               >
                 <Text style={styles.ghostText}>Gifts & Penalties</Text>

@@ -9,6 +9,7 @@ import missionRoutes from "./missions";
 import dashboardRoutes from "./dashboard";
 import routineRoutes from "./routines";
 import pointRoutes from "./points";
+import nudgeRoutes from "./nudges";
 
 const router = Router();
 
@@ -26,5 +27,6 @@ router.use("/notes", noteRoutes);
 router.use("/missions", missionRoutes);
 router.use("/routines", routineRoutes);
 router.use("/dashboard", dashboardRoutes);
+router.use("/nudges", nudgeRoutes);
 
 export default router;

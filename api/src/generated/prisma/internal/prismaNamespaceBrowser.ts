@@ -59,6 +59,7 @@ export const ModelName = {
   PrivilegeDefinition: 'PrivilegeDefinition',
   PrivilegeRequest: 'PrivilegeRequest',
   PointAdjustment: 'PointAdjustment',
+  NudgeSetting: 'NudgeSetting',
   MoodEntry: 'MoodEntry',
   KindNote: 'KindNote',
   TeamMission: 'TeamMission',
@@ -225,6 +226,22 @@ export const PointAdjustmentScalarFieldEnum = {
 } as const
 
 export type PointAdjustmentScalarFieldEnum = (typeof PointAdjustmentScalarFieldEnum)[keyof typeof PointAdjustmentScalarFieldEnum]
+
+
+export const NudgeSettingScalarFieldEnum = {
+  id: 'id',
+  familyId: 'familyId',
+  childId: 'childId',
+  type: 'type',
+  label: 'label',
+  time: 'time',
+  enabled: 'enabled',
+  message: 'message',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NudgeSettingScalarFieldEnum = (typeof NudgeSettingScalarFieldEnum)[keyof typeof NudgeSettingScalarFieldEnum]
 
 
 export const MoodEntryScalarFieldEnum = {

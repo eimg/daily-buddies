@@ -250,6 +250,7 @@ export type UserWhereInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionListRelationFilter
   pointAdjustmentsGiven?: Prisma.PointAdjustmentListRelationFilter
   pointAdjustmentsReceived?: Prisma.PointAdjustmentListRelationFilter
+  nudgeSettings?: Prisma.NudgeSettingListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -284,6 +285,7 @@ export type UserOrderByWithRelationInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionOrderByRelationAggregateInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentOrderByRelationAggregateInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentOrderByRelationAggregateInput
+  nudgeSettings?: Prisma.NudgeSettingOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -321,6 +323,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   privilegesCreated?: Prisma.PrivilegeDefinitionListRelationFilter
   pointAdjustmentsGiven?: Prisma.PointAdjustmentListRelationFilter
   pointAdjustmentsReceived?: Prisma.PointAdjustmentListRelationFilter
+  nudgeSettings?: Prisma.NudgeSettingListRelationFilter
 }, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -387,6 +390,7 @@ export type UserCreateInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -419,6 +423,7 @@ export type UserUncheckedCreateInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserUpdateInput = {
@@ -451,6 +456,7 @@ export type UserUpdateInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -483,6 +489,7 @@ export type UserUncheckedUpdateInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -821,6 +828,20 @@ export type UserUpdateOneRequiredWithoutPointAdjustmentsGivenNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPointAdjustmentsGivenInput, Prisma.UserUpdateWithoutPointAdjustmentsGivenInput>, Prisma.UserUncheckedUpdateWithoutPointAdjustmentsGivenInput>
 }
 
+export type UserCreateNestedOneWithoutNudgeSettingsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNudgeSettingsInput, Prisma.UserUncheckedCreateWithoutNudgeSettingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNudgeSettingsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNudgeSettingsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNudgeSettingsInput, Prisma.UserUncheckedCreateWithoutNudgeSettingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNudgeSettingsInput
+  upsert?: Prisma.UserUpsertWithoutNudgeSettingsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNudgeSettingsInput, Prisma.UserUpdateWithoutNudgeSettingsInput>, Prisma.UserUncheckedUpdateWithoutNudgeSettingsInput>
+}
+
 export type UserCreateNestedOneWithoutMoodsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutMoodsInput, Prisma.UserUncheckedCreateWithoutMoodsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutMoodsInput
@@ -962,6 +983,7 @@ export type UserCreateWithoutFamilyInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutFamilyInput = {
@@ -993,6 +1015,7 @@ export type UserUncheckedCreateWithoutFamilyInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutFamilyInput = {
@@ -1066,6 +1089,7 @@ export type UserCreateWithoutParentInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutParentInput = {
@@ -1097,6 +1121,7 @@ export type UserUncheckedCreateWithoutParentInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutParentInput = {
@@ -1137,6 +1162,7 @@ export type UserCreateWithoutChildrenInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutChildrenInput = {
@@ -1168,6 +1194,7 @@ export type UserUncheckedCreateWithoutChildrenInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutChildrenInput = {
@@ -1231,6 +1258,7 @@ export type UserUpdateWithoutChildrenInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChildrenInput = {
@@ -1262,6 +1290,7 @@ export type UserUncheckedUpdateWithoutChildrenInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutTasksCreatedInput = {
@@ -1293,6 +1322,7 @@ export type UserCreateWithoutTasksCreatedInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutTasksCreatedInput = {
@@ -1324,6 +1354,7 @@ export type UserUncheckedCreateWithoutTasksCreatedInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutTasksCreatedInput = {
@@ -1371,6 +1402,7 @@ export type UserUpdateWithoutTasksCreatedInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTasksCreatedInput = {
@@ -1402,6 +1434,7 @@ export type UserUncheckedUpdateWithoutTasksCreatedInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutTaskCompletionsInput = {
@@ -1433,6 +1466,7 @@ export type UserCreateWithoutTaskCompletionsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutTaskCompletionsInput = {
@@ -1464,6 +1498,7 @@ export type UserUncheckedCreateWithoutTaskCompletionsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutTaskCompletionsInput = {
@@ -1511,6 +1546,7 @@ export type UserUpdateWithoutTaskCompletionsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTaskCompletionsInput = {
@@ -1542,6 +1578,7 @@ export type UserUncheckedUpdateWithoutTaskCompletionsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutRewardsCreatedInput = {
@@ -1573,6 +1610,7 @@ export type UserCreateWithoutRewardsCreatedInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutRewardsCreatedInput = {
@@ -1604,6 +1642,7 @@ export type UserUncheckedCreateWithoutRewardsCreatedInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutRewardsCreatedInput = {
@@ -1651,6 +1690,7 @@ export type UserUpdateWithoutRewardsCreatedInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRewardsCreatedInput = {
@@ -1682,6 +1722,7 @@ export type UserUncheckedUpdateWithoutRewardsCreatedInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutRedemptionsInput = {
@@ -1713,6 +1754,7 @@ export type UserCreateWithoutRedemptionsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutRedemptionsInput = {
@@ -1744,6 +1786,7 @@ export type UserUncheckedCreateWithoutRedemptionsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutRedemptionsInput = {
@@ -1791,6 +1834,7 @@ export type UserUpdateWithoutRedemptionsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRedemptionsInput = {
@@ -1822,6 +1866,7 @@ export type UserUncheckedUpdateWithoutRedemptionsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutStreakRewardsInput = {
@@ -1853,6 +1898,7 @@ export type UserCreateWithoutStreakRewardsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutStreakRewardsInput = {
@@ -1884,6 +1930,7 @@ export type UserUncheckedCreateWithoutStreakRewardsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutStreakRewardsInput = {
@@ -1931,6 +1978,7 @@ export type UserUpdateWithoutStreakRewardsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStreakRewardsInput = {
@@ -1962,6 +2010,7 @@ export type UserUncheckedUpdateWithoutStreakRewardsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutPrivilegesCreatedInput = {
@@ -1993,6 +2042,7 @@ export type UserCreateWithoutPrivilegesCreatedInput = {
   privilegeRequests?: Prisma.PrivilegeRequestCreateNestedManyWithoutChildInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutPrivilegesCreatedInput = {
@@ -2024,6 +2074,7 @@ export type UserUncheckedCreateWithoutPrivilegesCreatedInput = {
   privilegeRequests?: Prisma.PrivilegeRequestUncheckedCreateNestedManyWithoutChildInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutPrivilegesCreatedInput = {
@@ -2071,6 +2122,7 @@ export type UserUpdateWithoutPrivilegesCreatedInput = {
   privilegeRequests?: Prisma.PrivilegeRequestUpdateManyWithoutChildNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPrivilegesCreatedInput = {
@@ -2102,6 +2154,7 @@ export type UserUncheckedUpdateWithoutPrivilegesCreatedInput = {
   privilegeRequests?: Prisma.PrivilegeRequestUncheckedUpdateManyWithoutChildNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutPrivilegeRequestsInput = {
@@ -2133,6 +2186,7 @@ export type UserCreateWithoutPrivilegeRequestsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutPrivilegeRequestsInput = {
@@ -2164,6 +2218,7 @@ export type UserUncheckedCreateWithoutPrivilegeRequestsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutPrivilegeRequestsInput = {
@@ -2211,6 +2266,7 @@ export type UserUpdateWithoutPrivilegeRequestsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPrivilegeRequestsInput = {
@@ -2242,6 +2298,7 @@ export type UserUncheckedUpdateWithoutPrivilegeRequestsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutPointAdjustmentsReceivedInput = {
@@ -2273,6 +2330,7 @@ export type UserCreateWithoutPointAdjustmentsReceivedInput = {
   privilegeRequests?: Prisma.PrivilegeRequestCreateNestedManyWithoutChildInput
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutPointAdjustmentsReceivedInput = {
@@ -2304,6 +2362,7 @@ export type UserUncheckedCreateWithoutPointAdjustmentsReceivedInput = {
   privilegeRequests?: Prisma.PrivilegeRequestUncheckedCreateNestedManyWithoutChildInput
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutPointAdjustmentsReceivedInput = {
@@ -2340,6 +2399,7 @@ export type UserCreateWithoutPointAdjustmentsGivenInput = {
   privilegeRequests?: Prisma.PrivilegeRequestCreateNestedManyWithoutChildInput
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutPointAdjustmentsGivenInput = {
@@ -2371,6 +2431,7 @@ export type UserUncheckedCreateWithoutPointAdjustmentsGivenInput = {
   privilegeRequests?: Prisma.PrivilegeRequestUncheckedCreateNestedManyWithoutChildInput
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutPointAdjustmentsGivenInput = {
@@ -2418,6 +2479,7 @@ export type UserUpdateWithoutPointAdjustmentsReceivedInput = {
   privilegeRequests?: Prisma.PrivilegeRequestUpdateManyWithoutChildNestedInput
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPointAdjustmentsReceivedInput = {
@@ -2449,6 +2511,7 @@ export type UserUncheckedUpdateWithoutPointAdjustmentsReceivedInput = {
   privilegeRequests?: Prisma.PrivilegeRequestUncheckedUpdateManyWithoutChildNestedInput
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserUpsertWithoutPointAdjustmentsGivenInput = {
@@ -2491,6 +2554,7 @@ export type UserUpdateWithoutPointAdjustmentsGivenInput = {
   privilegeRequests?: Prisma.PrivilegeRequestUpdateManyWithoutChildNestedInput
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPointAdjustmentsGivenInput = {
@@ -2521,6 +2585,151 @@ export type UserUncheckedUpdateWithoutPointAdjustmentsGivenInput = {
   streakRewards?: Prisma.StreakRewardLogUncheckedUpdateManyWithoutChildNestedInput
   privilegeRequests?: Prisma.PrivilegeRequestUncheckedUpdateManyWithoutChildNestedInput
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
+  pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
+}
+
+export type UserCreateWithoutNudgeSettingsInput = {
+  id?: string
+  username: string
+  email?: string | null
+  passwordHash: string
+  name: string
+  role: $Enums.UserRole
+  avatarTone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  family?: Prisma.FamilyCreateNestedOneWithoutUsersInput
+  taskCompletions?: Prisma.TaskCompletionCreateNestedManyWithoutChildInput
+  moods?: Prisma.MoodEntryCreateNestedManyWithoutUserInput
+  sentNotes?: Prisma.KindNoteCreateNestedManyWithoutFromUserInput
+  receivedNotes?: Prisma.KindNoteCreateNestedManyWithoutToUserInput
+  rewardsCreated?: Prisma.RewardDefinitionCreateNestedManyWithoutCreatedByInput
+  tasksCreated?: Prisma.TaskCreateNestedManyWithoutCreatedByInput
+  redemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutChildInput
+  children?: Prisma.UserCreateNestedManyWithoutParentInput
+  parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
+  teamParticipants?: Prisma.TeamParticipantCreateNestedManyWithoutUserInput
+  missionRewards?: Prisma.MissionRewardCreateNestedManyWithoutUserInput
+  templatesCreated?: Prisma.RoutineTemplateCreateNestedManyWithoutCreatedByInput
+  routineAssignments?: Prisma.RoutineAssignmentCreateNestedManyWithoutChildInput
+  taskAssignments?: Prisma.TaskAssignmentCreateNestedManyWithoutChildInput
+  streakRewards?: Prisma.StreakRewardLogCreateNestedManyWithoutChildInput
+  privilegeRequests?: Prisma.PrivilegeRequestCreateNestedManyWithoutChildInput
+  privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
+  pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
+  pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+}
+
+export type UserUncheckedCreateWithoutNudgeSettingsInput = {
+  id?: string
+  username: string
+  email?: string | null
+  passwordHash: string
+  name: string
+  role: $Enums.UserRole
+  avatarTone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyId?: string | null
+  parentId?: string | null
+  taskCompletions?: Prisma.TaskCompletionUncheckedCreateNestedManyWithoutChildInput
+  moods?: Prisma.MoodEntryUncheckedCreateNestedManyWithoutUserInput
+  sentNotes?: Prisma.KindNoteUncheckedCreateNestedManyWithoutFromUserInput
+  receivedNotes?: Prisma.KindNoteUncheckedCreateNestedManyWithoutToUserInput
+  rewardsCreated?: Prisma.RewardDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
+  tasksCreated?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatedByInput
+  redemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutChildInput
+  children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
+  teamParticipants?: Prisma.TeamParticipantUncheckedCreateNestedManyWithoutUserInput
+  missionRewards?: Prisma.MissionRewardUncheckedCreateNestedManyWithoutUserInput
+  templatesCreated?: Prisma.RoutineTemplateUncheckedCreateNestedManyWithoutCreatedByInput
+  routineAssignments?: Prisma.RoutineAssignmentUncheckedCreateNestedManyWithoutChildInput
+  taskAssignments?: Prisma.TaskAssignmentUncheckedCreateNestedManyWithoutChildInput
+  streakRewards?: Prisma.StreakRewardLogUncheckedCreateNestedManyWithoutChildInput
+  privilegeRequests?: Prisma.PrivilegeRequestUncheckedCreateNestedManyWithoutChildInput
+  privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
+  pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
+  pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+}
+
+export type UserCreateOrConnectWithoutNudgeSettingsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNudgeSettingsInput, Prisma.UserUncheckedCreateWithoutNudgeSettingsInput>
+}
+
+export type UserUpsertWithoutNudgeSettingsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNudgeSettingsInput, Prisma.UserUncheckedUpdateWithoutNudgeSettingsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNudgeSettingsInput, Prisma.UserUncheckedCreateWithoutNudgeSettingsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNudgeSettingsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNudgeSettingsInput, Prisma.UserUncheckedUpdateWithoutNudgeSettingsInput>
+}
+
+export type UserUpdateWithoutNudgeSettingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  avatarTone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  family?: Prisma.FamilyUpdateOneWithoutUsersNestedInput
+  taskCompletions?: Prisma.TaskCompletionUpdateManyWithoutChildNestedInput
+  moods?: Prisma.MoodEntryUpdateManyWithoutUserNestedInput
+  sentNotes?: Prisma.KindNoteUpdateManyWithoutFromUserNestedInput
+  receivedNotes?: Prisma.KindNoteUpdateManyWithoutToUserNestedInput
+  rewardsCreated?: Prisma.RewardDefinitionUpdateManyWithoutCreatedByNestedInput
+  tasksCreated?: Prisma.TaskUpdateManyWithoutCreatedByNestedInput
+  redemptions?: Prisma.RewardRedemptionUpdateManyWithoutChildNestedInput
+  children?: Prisma.UserUpdateManyWithoutParentNestedInput
+  parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
+  teamParticipants?: Prisma.TeamParticipantUpdateManyWithoutUserNestedInput
+  missionRewards?: Prisma.MissionRewardUpdateManyWithoutUserNestedInput
+  templatesCreated?: Prisma.RoutineTemplateUpdateManyWithoutCreatedByNestedInput
+  routineAssignments?: Prisma.RoutineAssignmentUpdateManyWithoutChildNestedInput
+  taskAssignments?: Prisma.TaskAssignmentUpdateManyWithoutChildNestedInput
+  streakRewards?: Prisma.StreakRewardLogUpdateManyWithoutChildNestedInput
+  privilegeRequests?: Prisma.PrivilegeRequestUpdateManyWithoutChildNestedInput
+  privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
+  pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
+  pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNudgeSettingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  avatarTone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taskCompletions?: Prisma.TaskCompletionUncheckedUpdateManyWithoutChildNestedInput
+  moods?: Prisma.MoodEntryUncheckedUpdateManyWithoutUserNestedInput
+  sentNotes?: Prisma.KindNoteUncheckedUpdateManyWithoutFromUserNestedInput
+  receivedNotes?: Prisma.KindNoteUncheckedUpdateManyWithoutToUserNestedInput
+  rewardsCreated?: Prisma.RewardDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
+  tasksCreated?: Prisma.TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+  redemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutChildNestedInput
+  children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
+  teamParticipants?: Prisma.TeamParticipantUncheckedUpdateManyWithoutUserNestedInput
+  missionRewards?: Prisma.MissionRewardUncheckedUpdateManyWithoutUserNestedInput
+  templatesCreated?: Prisma.RoutineTemplateUncheckedUpdateManyWithoutCreatedByNestedInput
+  routineAssignments?: Prisma.RoutineAssignmentUncheckedUpdateManyWithoutChildNestedInput
+  taskAssignments?: Prisma.TaskAssignmentUncheckedUpdateManyWithoutChildNestedInput
+  streakRewards?: Prisma.StreakRewardLogUncheckedUpdateManyWithoutChildNestedInput
+  privilegeRequests?: Prisma.PrivilegeRequestUncheckedUpdateManyWithoutChildNestedInput
+  privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
+  pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
 }
 
@@ -2553,6 +2762,7 @@ export type UserCreateWithoutMoodsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutMoodsInput = {
@@ -2584,6 +2794,7 @@ export type UserUncheckedCreateWithoutMoodsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutMoodsInput = {
@@ -2631,6 +2842,7 @@ export type UserUpdateWithoutMoodsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMoodsInput = {
@@ -2662,6 +2874,7 @@ export type UserUncheckedUpdateWithoutMoodsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutSentNotesInput = {
@@ -2693,6 +2906,7 @@ export type UserCreateWithoutSentNotesInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutSentNotesInput = {
@@ -2724,6 +2938,7 @@ export type UserUncheckedCreateWithoutSentNotesInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutSentNotesInput = {
@@ -2760,6 +2975,7 @@ export type UserCreateWithoutReceivedNotesInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutReceivedNotesInput = {
@@ -2791,6 +3007,7 @@ export type UserUncheckedCreateWithoutReceivedNotesInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutReceivedNotesInput = {
@@ -2838,6 +3055,7 @@ export type UserUpdateWithoutSentNotesInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSentNotesInput = {
@@ -2869,6 +3087,7 @@ export type UserUncheckedUpdateWithoutSentNotesInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserUpsertWithoutReceivedNotesInput = {
@@ -2911,6 +3130,7 @@ export type UserUpdateWithoutReceivedNotesInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReceivedNotesInput = {
@@ -2942,6 +3162,7 @@ export type UserUncheckedUpdateWithoutReceivedNotesInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutTeamParticipantsInput = {
@@ -2973,6 +3194,7 @@ export type UserCreateWithoutTeamParticipantsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutTeamParticipantsInput = {
@@ -3004,6 +3226,7 @@ export type UserUncheckedCreateWithoutTeamParticipantsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutTeamParticipantsInput = {
@@ -3051,6 +3274,7 @@ export type UserUpdateWithoutTeamParticipantsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTeamParticipantsInput = {
@@ -3082,6 +3306,7 @@ export type UserUncheckedUpdateWithoutTeamParticipantsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutMissionRewardsInput = {
@@ -3113,6 +3338,7 @@ export type UserCreateWithoutMissionRewardsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutMissionRewardsInput = {
@@ -3144,6 +3370,7 @@ export type UserUncheckedCreateWithoutMissionRewardsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutMissionRewardsInput = {
@@ -3191,6 +3418,7 @@ export type UserUpdateWithoutMissionRewardsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMissionRewardsInput = {
@@ -3222,6 +3450,7 @@ export type UserUncheckedUpdateWithoutMissionRewardsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutTemplatesCreatedInput = {
@@ -3253,6 +3482,7 @@ export type UserCreateWithoutTemplatesCreatedInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutTemplatesCreatedInput = {
@@ -3284,6 +3514,7 @@ export type UserUncheckedCreateWithoutTemplatesCreatedInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutTemplatesCreatedInput = {
@@ -3331,6 +3562,7 @@ export type UserUpdateWithoutTemplatesCreatedInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTemplatesCreatedInput = {
@@ -3362,6 +3594,7 @@ export type UserUncheckedUpdateWithoutTemplatesCreatedInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutRoutineAssignmentsInput = {
@@ -3393,6 +3626,7 @@ export type UserCreateWithoutRoutineAssignmentsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutRoutineAssignmentsInput = {
@@ -3424,6 +3658,7 @@ export type UserUncheckedCreateWithoutRoutineAssignmentsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutRoutineAssignmentsInput = {
@@ -3471,6 +3706,7 @@ export type UserUpdateWithoutRoutineAssignmentsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoutineAssignmentsInput = {
@@ -3502,6 +3738,7 @@ export type UserUncheckedUpdateWithoutRoutineAssignmentsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateWithoutTaskAssignmentsInput = {
@@ -3533,6 +3770,7 @@ export type UserCreateWithoutTaskAssignmentsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingCreateNestedManyWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutTaskAssignmentsInput = {
@@ -3564,6 +3802,7 @@ export type UserUncheckedCreateWithoutTaskAssignmentsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutCreatedByInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedCreateNestedManyWithoutChildInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedCreateNestedManyWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutTaskAssignmentsInput = {
@@ -3611,6 +3850,7 @@ export type UserUpdateWithoutTaskAssignmentsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTaskAssignmentsInput = {
@@ -3642,6 +3882,7 @@ export type UserUncheckedUpdateWithoutTaskAssignmentsInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserCreateManyFamilyInput = {
@@ -3686,6 +3927,7 @@ export type UserUpdateWithoutFamilyInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFamilyInput = {
@@ -3717,6 +3959,7 @@ export type UserUncheckedUpdateWithoutFamilyInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutFamilyInput = {
@@ -3774,6 +4017,7 @@ export type UserUpdateWithoutParentInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutParentInput = {
@@ -3805,6 +4049,7 @@ export type UserUncheckedUpdateWithoutParentInput = {
   privilegesCreated?: Prisma.PrivilegeDefinitionUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsGiven?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutCreatedByNestedInput
   pointAdjustmentsReceived?: Prisma.PointAdjustmentUncheckedUpdateManyWithoutChildNestedInput
+  nudgeSettings?: Prisma.NudgeSettingUncheckedUpdateManyWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutParentInput = {
@@ -3844,6 +4089,7 @@ export type UserCountOutputType = {
   privilegesCreated: number
   pointAdjustmentsGiven: number
   pointAdjustmentsReceived: number
+  nudgeSettings: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3865,6 +4111,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   privilegesCreated?: boolean | UserCountOutputTypeCountPrivilegesCreatedArgs
   pointAdjustmentsGiven?: boolean | UserCountOutputTypeCountPointAdjustmentsGivenArgs
   pointAdjustmentsReceived?: boolean | UserCountOutputTypeCountPointAdjustmentsReceivedArgs
+  nudgeSettings?: boolean | UserCountOutputTypeCountNudgeSettingsArgs
 }
 
 /**
@@ -4003,6 +4250,13 @@ export type UserCountOutputTypeCountPointAdjustmentsReceivedArgs<ExtArgs extends
   where?: Prisma.PointAdjustmentWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNudgeSettingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NudgeSettingWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4036,6 +4290,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   privilegesCreated?: boolean | Prisma.User$privilegesCreatedArgs<ExtArgs>
   pointAdjustmentsGiven?: boolean | Prisma.User$pointAdjustmentsGivenArgs<ExtArgs>
   pointAdjustmentsReceived?: boolean | Prisma.User$pointAdjustmentsReceivedArgs<ExtArgs>
+  nudgeSettings?: boolean | Prisma.User$nudgeSettingsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -4107,6 +4362,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   privilegesCreated?: boolean | Prisma.User$privilegesCreatedArgs<ExtArgs>
   pointAdjustmentsGiven?: boolean | Prisma.User$pointAdjustmentsGivenArgs<ExtArgs>
   pointAdjustmentsReceived?: boolean | Prisma.User$pointAdjustmentsReceivedArgs<ExtArgs>
+  nudgeSettings?: boolean | Prisma.User$nudgeSettingsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4141,6 +4397,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     privilegesCreated: Prisma.$PrivilegeDefinitionPayload<ExtArgs>[]
     pointAdjustmentsGiven: Prisma.$PointAdjustmentPayload<ExtArgs>[]
     pointAdjustmentsReceived: Prisma.$PointAdjustmentPayload<ExtArgs>[]
+    nudgeSettings: Prisma.$NudgeSettingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4568,6 +4825,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   privilegesCreated<T extends Prisma.User$privilegesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$privilegesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivilegeDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pointAdjustmentsGiven<T extends Prisma.User$pointAdjustmentsGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$pointAdjustmentsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PointAdjustmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pointAdjustmentsReceived<T extends Prisma.User$pointAdjustmentsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$pointAdjustmentsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PointAdjustmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  nudgeSettings<T extends Prisma.User$nudgeSettingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$nudgeSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NudgeSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5469,6 +5727,30 @@ export type User$pointAdjustmentsReceivedArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.PointAdjustmentScalarFieldEnum | Prisma.PointAdjustmentScalarFieldEnum[]
+}
+
+/**
+ * User.nudgeSettings
+ */
+export type User$nudgeSettingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NudgeSetting
+   */
+  select?: Prisma.NudgeSettingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NudgeSetting
+   */
+  omit?: Prisma.NudgeSettingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NudgeSettingInclude<ExtArgs> | null
+  where?: Prisma.NudgeSettingWhereInput
+  orderBy?: Prisma.NudgeSettingOrderByWithRelationInput | Prisma.NudgeSettingOrderByWithRelationInput[]
+  cursor?: Prisma.NudgeSettingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NudgeSettingScalarFieldEnum | Prisma.NudgeSettingScalarFieldEnum[]
 }
 
 /**
