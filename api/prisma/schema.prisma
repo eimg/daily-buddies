@@ -20,6 +20,7 @@ model Family {
   weeklyStreakReward  Int        @default(5)
   monthlyStreakReward Int        @default(15)
   yearlyStreakReward  Int        @default(100)
+  timezone      String            @default("UTC")
   users        User[]
   tasks        Task[]
   rewards      RewardDefinition[]

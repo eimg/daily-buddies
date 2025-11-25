@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { prisma, UserRole } from "../prisma";
 import { authMiddleware, requireRole, AuthenticatedRequest } from "../middleware/auth";
-import { startOfDayUTC } from "../utils/dates";
+import { dayBoundsForTimeZone } from "../utils/dates";
 
 type PointType = "GIFT" | "PENALTY";
 
@@ -36,12 +36,11 @@ const parseLimit = (value: unknown, fallback: number) => {
   return Math.max(1, Math.min(50, Math.floor(parsed)));
 };
 
-const buildDateFilter = (scope?: string) => {
+const buildDateFilter = (scope: string | undefined, timeZone: string) => {
   if (scope !== "today") {
     return undefined;
   }
-  const start = startOfDayUTC();
-  const end = new Date(start.getTime() + DAY_MS);
+  const { start, end } = dayBoundsForTimeZone(timeZone);
   return { gte: start, lt: end };
 };
 
@@ -111,7 +110,8 @@ router.get("/", authMiddleware, async (req: AuthenticatedRequest, res) => {
   const scope = typeof req.query.scope === "string" ? req.query.scope : undefined;
   const childId = typeof req.query.childId === "string" ? req.query.childId : undefined;
   const take = parseLimit(req.query.limit, 10);
-  const dateFilter = buildDateFilter(scope);
+  const timeZone = req.user.familyTimezone ?? "UTC";
+  const dateFilter = buildDateFilter(scope, timeZone);
 
   if (req.user.role === UserRole.PARENT) {
     if (!req.user.familyId) {

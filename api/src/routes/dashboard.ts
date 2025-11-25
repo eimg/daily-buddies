@@ -3,7 +3,7 @@ import { prisma, UserRole, CompletionStatus } from "../prisma";
 import { authMiddleware, requireRole, AuthenticatedRequest } from "../middleware/auth";
 import { childProgressSnapshot } from "../services/progress";
 import { REMINDER_PROMPTS } from "../constants/templates";
-import { startOfDayUTC } from "../utils/dates";
+import { dayBoundsForTimeZone } from "../utils/dates";
 
 const router = Router();
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -18,8 +18,8 @@ router.get(
       return res.status(400).json({ error: "Family not assigned" });
     }
 
-    const start = startOfDayUTC();
-    const end = new Date(start.getTime() + DAY_MS);
+    const timeZone = req.user.familyTimezone ?? "UTC";
+    const { start, end } = dayBoundsForTimeZone(timeZone);
 
     const [tasks, completions, children, moods, rewards, missions, notes] =
       await Promise.all([
@@ -91,7 +91,7 @@ router.get(
           name: child.name,
           avatarTone: child.avatarTone,
         },
-        progress: await childProgressSnapshot(child.id),
+        progress: await childProgressSnapshot(child.id, timeZone),
       })),
     );
 
@@ -111,29 +111,31 @@ router.get(
   authMiddleware,
   requireRole(UserRole.CHILD),
   async (req: AuthenticatedRequest, res) => {
+    const user = req.user!;
+    const timeZone = user.familyTimezone ?? "UTC";
     const [tasks, progress, notes] = await Promise.all([
       prisma.task.findMany({
         where: {
           active: true,
-          ...(req.user?.familyId ? { familyId: req.user.familyId } : {}),
+          ...(user.familyId ? { familyId: user.familyId } : {}),
         },
         orderBy: { createdAt: "asc" },
         include: {
           completions: {
-            where: { childId: req.user!.id },
-          orderBy: { date: "desc" },
-          take: 1,
+            where: { childId: user.id },
+            orderBy: { date: "desc" },
+            take: 1,
+          },
         },
-      },
-    }),
-    childProgressSnapshot(req.user!.id),
-    prisma.kindNote.findMany({
-      where: { toUserId: req.user!.id },
-      orderBy: { createdAt: "desc" },
-      take: 5,
-      include: { fromUser: { select: { id: true, name: true } } },
-    }),
-  ]);
+      }),
+      childProgressSnapshot(user.id, timeZone),
+      prisma.kindNote.findMany({
+        where: { toUserId: user.id },
+        orderBy: { createdAt: "desc" },
+        take: 5,
+        include: { fromUser: { select: { id: true, name: true } } },
+      }),
+    ]);
 
   const reminder =
     REMINDER_PROMPTS[Math.floor(Math.random() * REMINDER_PROMPTS.length)] ??

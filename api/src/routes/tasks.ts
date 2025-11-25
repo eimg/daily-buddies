@@ -1,14 +1,14 @@
 import { Router } from "express";
 import { Prisma, prisma, UserRole, ReminderStyle, FrequencyType, CompletionStatus } from "../prisma";
 import { authMiddleware, requireRole, AuthenticatedRequest } from "../middleware/auth";
-import { startOfDayUTC } from "../utils/dates";
+import { startOfDayInTimeZone, dayBoundsForTimeZone, weekdayKeyForTimeZone } from "../utils/dates";
 import { childProgressSnapshot, maybeAwardStreakRewards, maybeRevokeDailyReward } from "../services/progress";
 
 const router = Router();
 const DAY_MS = 24 * 60 * 60 * 1000;
 const WEEK_DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"] as const;
 type DayKey = (typeof WEEK_DAYS)[number];
-const todayKey: DayKey = WEEK_DAYS[new Date().getUTCDay()] ?? "SUN";
+const todayKeyUTC: DayKey = WEEK_DAYS[new Date().getUTCDay()] ?? "SUN";
 
 const sanitizeDayInput = (value: unknown): DayKey | undefined => {
   if (typeof value !== "string") {
@@ -40,9 +40,11 @@ const isActiveOnDay = (value: Prisma.JsonValue | null | undefined, dayKey?: DayK
   return parsed.includes(dayKey);
 };
 
-const isActiveToday = (value?: Prisma.JsonValue | null) => isActiveOnDay(value, todayKey);
+const isActiveToday = (value: Prisma.JsonValue | null | undefined, timeZone: string) =>
+  isActiveOnDay(value, weekdayKeyForTimeZone(timeZone) as DayKey);
 
-const dayKeyFromDate = (date: Date): DayKey => WEEK_DAYS[date.getUTCDay()] ?? "SUN";
+const dayKeyFromDate = (date: Date, timeZone: string): DayKey =>
+  WEEK_DAYS[new Date(date.toLocaleString("en-US", { timeZone })).getDay()] ?? "SUN";
 
 const normalizeDaysInput = (
   input?: unknown,
@@ -58,8 +60,8 @@ const normalizeDaysInput = (
   return sanitized.length > 0 ? (sanitized as Prisma.JsonArray) : Prisma.JsonNull;
 };
 
-async function backfillMissedCompletions(childId: string) {
-  const today = startOfDayUTC();
+async function backfillMissedCompletions(childId: string, timeZone: string) {
+  const today = startOfDayInTimeZone(timeZone);
 
   const assignments = await prisma.taskAssignment.findMany({
     where: { childId },
@@ -79,11 +81,13 @@ async function backfillMissedCompletions(childId: string) {
       orderBy: { date: "desc" },
     });
 
-    const lastDate = lastCompletion ? startOfDayUTC(new Date(lastCompletion.date)) : startOfDayUTC(new Date(assignment.assignedAt));
+    const lastDate = lastCompletion
+      ? startOfDayInTimeZone(timeZone, new Date(lastCompletion.date))
+      : startOfDayInTimeZone(timeZone, new Date(assignment.assignedAt));
     let cursor = new Date(lastDate.getTime() + DAY_MS);
 
     while (cursor < today) {
-      const dayKey = dayKeyFromDate(cursor);
+      const dayKey = dayKeyFromDate(cursor, timeZone);
 
       if (!isActiveOnDay(assignment.task?.daysOfWeek, dayKey)) {
         cursor = new Date(cursor.getTime() + DAY_MS);
@@ -118,8 +122,8 @@ router.get("/", authMiddleware, async (req: AuthenticatedRequest, res) => {
     return res.status(400).json({ error: "Family not linked yet" });
   }
 
-  const start = startOfDayUTC();
-  const end = new Date(start.getTime() + DAY_MS);
+  const timeZone = req.user?.familyTimezone ?? "UTC";
+  const { start, end } = dayBoundsForTimeZone(timeZone);
   const familyChildren =
     req.user?.role === UserRole.PARENT
       ? await prisma.user
@@ -130,9 +134,9 @@ router.get("/", authMiddleware, async (req: AuthenticatedRequest, res) => {
       : [];
 
   if (req.user?.role === UserRole.CHILD) {
-    await backfillMissedCompletions(req.user.id);
+    await backfillMissedCompletions(req.user.id, timeZone);
   } else if (req.user?.role === UserRole.PARENT) {
-    await Promise.all(familyChildren.map((child) => backfillMissedCompletions(child.id)));
+    await Promise.all(familyChildren.map((child) => backfillMissedCompletions(child.id, timeZone)));
   }
 
   if (req.user?.role === UserRole.CHILD) {
@@ -154,7 +158,7 @@ router.get("/", authMiddleware, async (req: AuthenticatedRequest, res) => {
     });
 
     const payload = tasks
-      .filter((task) => isActiveToday(task.daysOfWeek))
+      .filter((task) => isActiveToday(task.daysOfWeek, timeZone))
       .map((task) => {
         const completion = task.completions[0];
         return {
@@ -346,7 +350,8 @@ router.post("/:taskId/complete", authMiddleware, async (req: AuthenticatedReques
     return res.status(403).json({ error: "Unsupported role" });
   }
 
-  const today = startOfDayUTC();
+  const timeZone = req.user?.familyTimezone ?? "UTC";
+  const today = startOfDayInTimeZone(timeZone);
   const seedsEarned = normalizedStatus === CompletionStatus.COMPLETED ? task.points ?? 1 : 0;
 
     const completion = await prisma.taskCompletion.upsert({
@@ -371,12 +376,12 @@ router.post("/:taskId/complete", authMiddleware, async (req: AuthenticatedReques
   });
 
     if (normalizedStatus === CompletionStatus.COMPLETED) {
-      await maybeAwardStreakRewards(targetChildId, task.familyId);
+      await maybeAwardStreakRewards(targetChildId, task.familyId, timeZone);
     } else if (normalizedStatus === CompletionStatus.PENDING) {
-      await maybeRevokeDailyReward(targetChildId, task.familyId);
+      await maybeRevokeDailyReward(targetChildId, task.familyId, timeZone);
     }
 
-    const progress = await childProgressSnapshot(targetChildId);
+    const progress = await childProgressSnapshot(targetChildId, timeZone);
 
   return res.json({
     completion,
@@ -519,12 +524,13 @@ router.get(
   authMiddleware,
   async (req: AuthenticatedRequest, res) => {
     const familyId = req.user?.familyId;
+    const timeZone = req.user?.familyTimezone ?? "UTC";
     if (!familyId) {
       return res.status(400).json({ error: "Family not linked yet" });
     }
 
     if (req.user?.role === UserRole.CHILD) {
-      await backfillMissedCompletions(req.user.id);
+      await backfillMissedCompletions(req.user.id, timeZone);
 
       const completions = await prisma.taskCompletion.findMany({
         where: {
@@ -558,7 +564,7 @@ router.get(
           select: { id: true },
         });
 
-    await Promise.all(childrenToBackfill.map((child) => backfillMissedCompletions(child.id)));
+    await Promise.all(childrenToBackfill.map((child) => backfillMissedCompletions(child.id, timeZone)));
 
     const completions = await prisma.taskCompletion.findMany({
       where: {
@@ -626,10 +632,11 @@ router.get(
       }
     }
 
-    const todayStart = startOfDayUTC();
+    const timeZone = req.user?.familyTimezone ?? "UTC";
+    const todayStart = startOfDayInTimeZone(timeZone);
     const todayStatusMap = new Map<string, CompletionStatus>();
     for (const completion of task.completions) {
-      const completionDay = startOfDayUTC(new Date(completion.date));
+      const completionDay = startOfDayInTimeZone(timeZone, new Date(completion.date));
       if (completionDay.getTime() === todayStart.getTime()) {
         todayStatusMap.set(completion.childId, completion.status);
       }

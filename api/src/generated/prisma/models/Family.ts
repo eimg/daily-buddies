@@ -49,6 +49,7 @@ export type FamilyMinAggregateOutputType = {
   weeklyStreakReward: number | null
   monthlyStreakReward: number | null
   yearlyStreakReward: number | null
+  timezone: string | null
 }
 
 export type FamilyMaxAggregateOutputType = {
@@ -60,6 +61,7 @@ export type FamilyMaxAggregateOutputType = {
   weeklyStreakReward: number | null
   monthlyStreakReward: number | null
   yearlyStreakReward: number | null
+  timezone: string | null
 }
 
 export type FamilyCountAggregateOutputType = {
@@ -71,6 +73,7 @@ export type FamilyCountAggregateOutputType = {
   weeklyStreakReward: number
   monthlyStreakReward: number
   yearlyStreakReward: number
+  timezone: number
   _all: number
 }
 
@@ -98,6 +101,7 @@ export type FamilyMinAggregateInputType = {
   weeklyStreakReward?: true
   monthlyStreakReward?: true
   yearlyStreakReward?: true
+  timezone?: true
 }
 
 export type FamilyMaxAggregateInputType = {
@@ -109,6 +113,7 @@ export type FamilyMaxAggregateInputType = {
   weeklyStreakReward?: true
   monthlyStreakReward?: true
   yearlyStreakReward?: true
+  timezone?: true
 }
 
 export type FamilyCountAggregateInputType = {
@@ -120,6 +125,7 @@ export type FamilyCountAggregateInputType = {
   weeklyStreakReward?: true
   monthlyStreakReward?: true
   yearlyStreakReward?: true
+  timezone?: true
   _all?: true
 }
 
@@ -218,6 +224,7 @@ export type FamilyGroupByOutputType = {
   weeklyStreakReward: number
   monthlyStreakReward: number
   yearlyStreakReward: number
+  timezone: string
   _count: FamilyCountAggregateOutputType | null
   _avg: FamilyAvgAggregateOutputType | null
   _sum: FamilySumAggregateOutputType | null
@@ -252,6 +259,7 @@ export type FamilyWhereInput = {
   weeklyStreakReward?: Prisma.IntFilter<"Family"> | number
   monthlyStreakReward?: Prisma.IntFilter<"Family"> | number
   yearlyStreakReward?: Prisma.IntFilter<"Family"> | number
+  timezone?: Prisma.StringFilter<"Family"> | string
   users?: Prisma.UserListRelationFilter
   tasks?: Prisma.TaskListRelationFilter
   rewards?: Prisma.RewardDefinitionListRelationFilter
@@ -273,6 +281,7 @@ export type FamilyOrderByWithRelationInput = {
   weeklyStreakReward?: Prisma.SortOrder
   monthlyStreakReward?: Prisma.SortOrder
   yearlyStreakReward?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   users?: Prisma.UserOrderByRelationAggregateInput
   tasks?: Prisma.TaskOrderByRelationAggregateInput
   rewards?: Prisma.RewardDefinitionOrderByRelationAggregateInput
@@ -297,6 +306,7 @@ export type FamilyWhereUniqueInput = Prisma.AtLeast<{
   weeklyStreakReward?: Prisma.IntFilter<"Family"> | number
   monthlyStreakReward?: Prisma.IntFilter<"Family"> | number
   yearlyStreakReward?: Prisma.IntFilter<"Family"> | number
+  timezone?: Prisma.StringFilter<"Family"> | string
   users?: Prisma.UserListRelationFilter
   tasks?: Prisma.TaskListRelationFilter
   rewards?: Prisma.RewardDefinitionListRelationFilter
@@ -318,6 +328,7 @@ export type FamilyOrderByWithAggregationInput = {
   weeklyStreakReward?: Prisma.SortOrder
   monthlyStreakReward?: Prisma.SortOrder
   yearlyStreakReward?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   _count?: Prisma.FamilyCountOrderByAggregateInput
   _avg?: Prisma.FamilyAvgOrderByAggregateInput
   _max?: Prisma.FamilyMaxOrderByAggregateInput
@@ -337,6 +348,7 @@ export type FamilyScalarWhereWithAggregatesInput = {
   weeklyStreakReward?: Prisma.IntWithAggregatesFilter<"Family"> | number
   monthlyStreakReward?: Prisma.IntWithAggregatesFilter<"Family"> | number
   yearlyStreakReward?: Prisma.IntWithAggregatesFilter<"Family"> | number
+  timezone?: Prisma.StringWithAggregatesFilter<"Family"> | string
 }
 
 export type FamilyCreateInput = {
@@ -348,6 +360,7 @@ export type FamilyCreateInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionCreateNestedManyWithoutFamilyInput
@@ -369,6 +382,7 @@ export type FamilyUncheckedCreateInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionUncheckedCreateNestedManyWithoutFamilyInput
@@ -390,6 +404,7 @@ export type FamilyUpdateInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUpdateManyWithoutFamilyNestedInput
@@ -411,6 +426,7 @@ export type FamilyUncheckedUpdateInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUncheckedUpdateManyWithoutFamilyNestedInput
@@ -432,6 +448,7 @@ export type FamilyCreateManyInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
 }
 
 export type FamilyUpdateManyMutationInput = {
@@ -443,6 +460,7 @@ export type FamilyUpdateManyMutationInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type FamilyUncheckedUpdateManyInput = {
@@ -454,6 +472,7 @@ export type FamilyUncheckedUpdateManyInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type FamilyCountOrderByAggregateInput = {
@@ -465,6 +484,7 @@ export type FamilyCountOrderByAggregateInput = {
   weeklyStreakReward?: Prisma.SortOrder
   monthlyStreakReward?: Prisma.SortOrder
   yearlyStreakReward?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
 }
 
 export type FamilyAvgOrderByAggregateInput = {
@@ -483,6 +503,7 @@ export type FamilyMaxOrderByAggregateInput = {
   weeklyStreakReward?: Prisma.SortOrder
   monthlyStreakReward?: Prisma.SortOrder
   yearlyStreakReward?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
 }
 
 export type FamilyMinOrderByAggregateInput = {
@@ -494,6 +515,7 @@ export type FamilyMinOrderByAggregateInput = {
   weeklyStreakReward?: Prisma.SortOrder
   monthlyStreakReward?: Prisma.SortOrder
   yearlyStreakReward?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
 }
 
 export type FamilySumOrderByAggregateInput = {
@@ -680,6 +702,7 @@ export type FamilyCreateWithoutUsersInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionCreateNestedManyWithoutFamilyInput
   teamMissions?: Prisma.TeamMissionCreateNestedManyWithoutFamilyInput
@@ -700,6 +723,7 @@ export type FamilyUncheckedCreateWithoutUsersInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionUncheckedCreateNestedManyWithoutFamilyInput
   teamMissions?: Prisma.TeamMissionUncheckedCreateNestedManyWithoutFamilyInput
@@ -736,6 +760,7 @@ export type FamilyUpdateWithoutUsersInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUpdateManyWithoutFamilyNestedInput
   teamMissions?: Prisma.TeamMissionUpdateManyWithoutFamilyNestedInput
@@ -756,6 +781,7 @@ export type FamilyUncheckedUpdateWithoutUsersInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUncheckedUpdateManyWithoutFamilyNestedInput
   teamMissions?: Prisma.TeamMissionUncheckedUpdateManyWithoutFamilyNestedInput
@@ -776,6 +802,7 @@ export type FamilyCreateWithoutTasksInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionCreateNestedManyWithoutFamilyInput
   teamMissions?: Prisma.TeamMissionCreateNestedManyWithoutFamilyInput
@@ -796,6 +823,7 @@ export type FamilyUncheckedCreateWithoutTasksInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionUncheckedCreateNestedManyWithoutFamilyInput
   teamMissions?: Prisma.TeamMissionUncheckedCreateNestedManyWithoutFamilyInput
@@ -832,6 +860,7 @@ export type FamilyUpdateWithoutTasksInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUpdateManyWithoutFamilyNestedInput
   teamMissions?: Prisma.TeamMissionUpdateManyWithoutFamilyNestedInput
@@ -852,6 +881,7 @@ export type FamilyUncheckedUpdateWithoutTasksInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUncheckedUpdateManyWithoutFamilyNestedInput
   teamMissions?: Prisma.TeamMissionUncheckedUpdateManyWithoutFamilyNestedInput
@@ -872,6 +902,7 @@ export type FamilyCreateWithoutRewardsInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   teamMissions?: Prisma.TeamMissionCreateNestedManyWithoutFamilyInput
@@ -892,6 +923,7 @@ export type FamilyUncheckedCreateWithoutRewardsInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   teamMissions?: Prisma.TeamMissionUncheckedCreateNestedManyWithoutFamilyInput
@@ -928,6 +960,7 @@ export type FamilyUpdateWithoutRewardsInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   teamMissions?: Prisma.TeamMissionUpdateManyWithoutFamilyNestedInput
@@ -948,6 +981,7 @@ export type FamilyUncheckedUpdateWithoutRewardsInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   teamMissions?: Prisma.TeamMissionUncheckedUpdateManyWithoutFamilyNestedInput
@@ -968,6 +1002,7 @@ export type FamilyCreateWithoutStreakRewardsInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionCreateNestedManyWithoutFamilyInput
@@ -988,6 +1023,7 @@ export type FamilyUncheckedCreateWithoutStreakRewardsInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionUncheckedCreateNestedManyWithoutFamilyInput
@@ -1024,6 +1060,7 @@ export type FamilyUpdateWithoutStreakRewardsInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUpdateManyWithoutFamilyNestedInput
@@ -1044,6 +1081,7 @@ export type FamilyUncheckedUpdateWithoutStreakRewardsInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUncheckedUpdateManyWithoutFamilyNestedInput
@@ -1064,6 +1102,7 @@ export type FamilyCreateWithoutPrivilegesInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionCreateNestedManyWithoutFamilyInput
@@ -1084,6 +1123,7 @@ export type FamilyUncheckedCreateWithoutPrivilegesInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionUncheckedCreateNestedManyWithoutFamilyInput
@@ -1120,6 +1160,7 @@ export type FamilyUpdateWithoutPrivilegesInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUpdateManyWithoutFamilyNestedInput
@@ -1140,6 +1181,7 @@ export type FamilyUncheckedUpdateWithoutPrivilegesInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUncheckedUpdateManyWithoutFamilyNestedInput
@@ -1160,6 +1202,7 @@ export type FamilyCreateWithoutPrivilegeRequestsInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionCreateNestedManyWithoutFamilyInput
@@ -1180,6 +1223,7 @@ export type FamilyUncheckedCreateWithoutPrivilegeRequestsInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionUncheckedCreateNestedManyWithoutFamilyInput
@@ -1216,6 +1260,7 @@ export type FamilyUpdateWithoutPrivilegeRequestsInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUpdateManyWithoutFamilyNestedInput
@@ -1236,6 +1281,7 @@ export type FamilyUncheckedUpdateWithoutPrivilegeRequestsInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUncheckedUpdateManyWithoutFamilyNestedInput
@@ -1256,6 +1302,7 @@ export type FamilyCreateWithoutPointAdjustmentsInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionCreateNestedManyWithoutFamilyInput
@@ -1276,6 +1323,7 @@ export type FamilyUncheckedCreateWithoutPointAdjustmentsInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionUncheckedCreateNestedManyWithoutFamilyInput
@@ -1312,6 +1360,7 @@ export type FamilyUpdateWithoutPointAdjustmentsInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUpdateManyWithoutFamilyNestedInput
@@ -1332,6 +1381,7 @@ export type FamilyUncheckedUpdateWithoutPointAdjustmentsInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUncheckedUpdateManyWithoutFamilyNestedInput
@@ -1352,6 +1402,7 @@ export type FamilyCreateWithoutNudgeSettingsInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionCreateNestedManyWithoutFamilyInput
@@ -1372,6 +1423,7 @@ export type FamilyUncheckedCreateWithoutNudgeSettingsInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionUncheckedCreateNestedManyWithoutFamilyInput
@@ -1408,6 +1460,7 @@ export type FamilyUpdateWithoutNudgeSettingsInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUpdateManyWithoutFamilyNestedInput
@@ -1428,6 +1481,7 @@ export type FamilyUncheckedUpdateWithoutNudgeSettingsInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUncheckedUpdateManyWithoutFamilyNestedInput
@@ -1448,6 +1502,7 @@ export type FamilyCreateWithoutTeamMissionsInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionCreateNestedManyWithoutFamilyInput
@@ -1468,6 +1523,7 @@ export type FamilyUncheckedCreateWithoutTeamMissionsInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionUncheckedCreateNestedManyWithoutFamilyInput
@@ -1504,6 +1560,7 @@ export type FamilyUpdateWithoutTeamMissionsInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUpdateManyWithoutFamilyNestedInput
@@ -1524,6 +1581,7 @@ export type FamilyUncheckedUpdateWithoutTeamMissionsInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUncheckedUpdateManyWithoutFamilyNestedInput
@@ -1544,6 +1602,7 @@ export type FamilyCreateWithoutRoutineTemplatesInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionCreateNestedManyWithoutFamilyInput
@@ -1564,6 +1623,7 @@ export type FamilyUncheckedCreateWithoutRoutineTemplatesInput = {
   weeklyStreakReward?: number
   monthlyStreakReward?: number
   yearlyStreakReward?: number
+  timezone?: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewards?: Prisma.RewardDefinitionUncheckedCreateNestedManyWithoutFamilyInput
@@ -1600,6 +1660,7 @@ export type FamilyUpdateWithoutRoutineTemplatesInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUpdateManyWithoutFamilyNestedInput
@@ -1620,6 +1681,7 @@ export type FamilyUncheckedUpdateWithoutRoutineTemplatesInput = {
   weeklyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   monthlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
   yearlyStreakReward?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewards?: Prisma.RewardDefinitionUncheckedUpdateManyWithoutFamilyNestedInput
@@ -1752,6 +1814,7 @@ export type FamilySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   weeklyStreakReward?: boolean
   monthlyStreakReward?: boolean
   yearlyStreakReward?: boolean
+  timezone?: boolean
   users?: boolean | Prisma.Family$usersArgs<ExtArgs>
   tasks?: boolean | Prisma.Family$tasksArgs<ExtArgs>
   rewards?: boolean | Prisma.Family$rewardsArgs<ExtArgs>
@@ -1774,6 +1837,7 @@ export type FamilySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   weeklyStreakReward?: boolean
   monthlyStreakReward?: boolean
   yearlyStreakReward?: boolean
+  timezone?: boolean
 }, ExtArgs["result"]["family"]>
 
 export type FamilySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1785,6 +1849,7 @@ export type FamilySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   weeklyStreakReward?: boolean
   monthlyStreakReward?: boolean
   yearlyStreakReward?: boolean
+  timezone?: boolean
 }, ExtArgs["result"]["family"]>
 
 export type FamilySelectScalar = {
@@ -1796,9 +1861,10 @@ export type FamilySelectScalar = {
   weeklyStreakReward?: boolean
   monthlyStreakReward?: boolean
   yearlyStreakReward?: boolean
+  timezone?: boolean
 }
 
-export type FamilyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt" | "dailyStreakReward" | "weeklyStreakReward" | "monthlyStreakReward" | "yearlyStreakReward", ExtArgs["result"]["family"]>
+export type FamilyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt" | "dailyStreakReward" | "weeklyStreakReward" | "monthlyStreakReward" | "yearlyStreakReward" | "timezone", ExtArgs["result"]["family"]>
 export type FamilyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.Family$usersArgs<ExtArgs>
   tasks?: boolean | Prisma.Family$tasksArgs<ExtArgs>
@@ -1838,6 +1904,7 @@ export type $FamilyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     weeklyStreakReward: number
     monthlyStreakReward: number
     yearlyStreakReward: number
+    timezone: string
   }, ExtArgs["result"]["family"]>
   composites: {}
 }
@@ -2279,6 +2346,7 @@ export interface FamilyFieldRefs {
   readonly weeklyStreakReward: Prisma.FieldRef<"Family", 'Int'>
   readonly monthlyStreakReward: Prisma.FieldRef<"Family", 'Int'>
   readonly yearlyStreakReward: Prisma.FieldRef<"Family", 'Int'>
+  readonly timezone: Prisma.FieldRef<"Family", 'String'>
 }
     
 

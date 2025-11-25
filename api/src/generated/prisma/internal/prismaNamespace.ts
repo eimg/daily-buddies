@@ -1953,7 +1953,8 @@ export const FamilyScalarFieldEnum = {
   dailyStreakReward: 'dailyStreakReward',
   weeklyStreakReward: 'weeklyStreakReward',
   monthlyStreakReward: 'monthlyStreakReward',
-  yearlyStreakReward: 'yearlyStreakReward'
+  yearlyStreakReward: 'yearlyStreakReward',
+  timezone: 'timezone'
 } as const
 
 export type FamilyScalarFieldEnum = (typeof FamilyScalarFieldEnum)[keyof typeof FamilyScalarFieldEnum]

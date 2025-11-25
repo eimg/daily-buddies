@@ -1,5 +1,5 @@
 import { prisma, CompletionStatus, StreakPeriod, PrivilegeRequestStatus } from "../prisma";
-import { startOfDayUTC } from "../utils/dates";
+import { startOfDayInTimeZone, dayBoundsForTimeZone, weekdayKeyForTimeZone } from "../utils/dates";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const WEEK_DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"] as const;
@@ -31,8 +31,16 @@ const isActiveOnDay = (value: unknown, dayKey: DayKey) => {
   return parsed.includes(dayKey);
 };
 
-const isActiveToday = (value: unknown) => {
-  const todayKey = WEEK_DAYS[new Date().getUTCDay()] ?? "SUN";
+const isActiveOnKey = (value: unknown, dayKey: DayKey) => {
+  const parsed = parseDays(value);
+  if (!parsed || parsed.length === 0) {
+    return true;
+  }
+  return parsed.includes(dayKey);
+};
+
+const isActiveToday = (value: unknown, timeZone: string) => {
+  const todayKey = weekdayKeyForTimeZone(timeZone) as DayKey;
   return isActiveOnDay(value, todayKey);
 };
 
@@ -77,7 +85,7 @@ export async function calculateSeedBalance(childId: string) {
   return earnedSeeds + missionSeeds + streakSeeds + adjustmentSeeds - spentSeeds - privilegeCost;
 }
 
-export async function calculateChildStreak(childId: string) {
+export async function calculateChildStreak(childId: string, timeZone: string) {
   const completions = await prisma.taskCompletion.findMany({
     where: {
       childId,
@@ -88,11 +96,11 @@ export async function calculateChildStreak(childId: string) {
   });
 
   const uniqueDays = Array.from(
-    new Set(completions.map((completion) => startOfDayUTC(completion.date).getTime())),
+    new Set(completions.map((completion) => startOfDayInTimeZone(timeZone, completion.date).getTime())),
   ).sort((a, b) => b - a);
 
   let streak = 0;
-  let expectedDay = startOfDayUTC(new Date()).getTime();
+  let expectedDay = startOfDayInTimeZone(timeZone, new Date()).getTime();
   let streakStart: Date | null = null;
 
   for (const day of uniqueDays) {
@@ -118,19 +126,18 @@ export async function calculateChildStreak(childId: string) {
   }
 
   if (streak > 0 && !streakStart) {
-    streakStart = startOfDayUTC(new Date());
+    streakStart = startOfDayInTimeZone(timeZone, new Date());
   }
 
   return { count: streak, startDate: streakStart };
 }
 
-export async function childProgressSnapshot(childId: string) {
-  const start = startOfDayUTC();
-  const end = new Date(start.getTime() + DAY_MS);
+export async function childProgressSnapshot(childId: string, timeZone: string) {
+  const { start, end } = dayBoundsForTimeZone(timeZone);
 
   const [seedBalance, streakInfo, todayCompletions] = await Promise.all([
     calculateSeedBalance(childId),
-    calculateChildStreak(childId),
+    calculateChildStreak(childId, timeZone),
     prisma.taskCompletion.findMany({
       where: { childId, date: { gte: start, lt: end } },
     }),
@@ -159,9 +166,10 @@ type StreakInfo = Awaited<ReturnType<typeof calculateChildStreak>>;
 export async function maybeAwardStreakRewards(
   childId: string,
   familyId: string,
+  timeZone: string,
   streakInfo?: StreakInfo,
 ) {
-  const info = streakInfo ?? (await calculateChildStreak(childId));
+  const info = streakInfo ?? (await calculateChildStreak(childId, timeZone));
   const family = await prisma.family.findUnique({
     where: { id: familyId },
     select: {
@@ -176,7 +184,7 @@ export async function maybeAwardStreakRewards(
     return info;
   }
 
-  await maybeAwardDailyReward(childId, familyId, family.dailyStreakReward);
+  await maybeAwardDailyReward(childId, familyId, timeZone, family.dailyStreakReward);
 
   if (!info.startDate || info.count === 0) {
     return info;
@@ -215,12 +223,16 @@ export async function maybeAwardStreakRewards(
   return info;
 }
 
-async function maybeAwardDailyReward(childId: string, familyId: string, rewardAmount?: number) {
+async function maybeAwardDailyReward(
+  childId: string,
+  familyId: string,
+  timeZone: string,
+  rewardAmount?: number,
+) {
   if (!rewardAmount || rewardAmount <= 0) {
     return;
   }
-  const start = startOfDayUTC();
-  const end = new Date(start.getTime() + DAY_MS);
+  const { start, end } = dayBoundsForTimeZone(timeZone);
 
   const tasks = await prisma.task.findMany({
     where: {
@@ -234,7 +246,7 @@ async function maybeAwardDailyReward(childId: string, familyId: string, rewardAm
     },
   });
 
-  const tasksDueToday = tasks.filter((task) => isActiveToday(task.daysOfWeek)).map((task) => task.id);
+  const tasksDueToday = tasks.filter((task) => isActiveToday(task.daysOfWeek, timeZone)).map((task) => task.id);
   if (tasksDueToday.length === 0) {
     return;
   }
@@ -259,7 +271,7 @@ async function maybeAwardDailyReward(childId: string, familyId: string, rewardAm
     orderBy: { awardedAt: "desc" },
   });
 
-  if (lastDaily && startOfDayUTC(lastDaily.awardedAt).getTime() === start.getTime()) {
+  if (lastDaily && startOfDayInTimeZone(timeZone, lastDaily.awardedAt).getTime() === start.getTime()) {
     return;
   }
 
@@ -274,9 +286,8 @@ async function maybeAwardDailyReward(childId: string, familyId: string, rewardAm
   });
 }
 
-export async function maybeRevokeDailyReward(childId: string, familyId: string) {
-  const start = startOfDayUTC();
-  const end = new Date(start.getTime() + DAY_MS);
+export async function maybeRevokeDailyReward(childId: string, familyId: string, timeZone: string) {
+  const { start, end } = dayBoundsForTimeZone(timeZone);
 
   const tasks = await prisma.task.findMany({
     where: {
@@ -290,7 +301,7 @@ export async function maybeRevokeDailyReward(childId: string, familyId: string) 
     },
   });
 
-  const tasksDueToday = tasks.filter((task) => isActiveToday(task.daysOfWeek)).map((task) => task.id);
+  const tasksDueToday = tasks.filter((task) => isActiveToday(task.daysOfWeek, timeZone)).map((task) => task.id);
   if (tasksDueToday.length === 0) {
     return;
   }

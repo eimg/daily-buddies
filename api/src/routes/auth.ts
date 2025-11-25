@@ -10,7 +10,7 @@ import {
 import { hashPassword, verifyPassword, createToken } from "../services/security";
 import { authMiddleware, requireRole, AuthenticatedRequest } from "../middleware/auth";
 import { childProgressSnapshot } from "../services/progress";
-import { startOfDayUTC } from "../utils/dates";
+import { startOfDayUTC, dayBoundsForTimeZone } from "../utils/dates";
 
 const router = Router();
 
@@ -96,6 +96,15 @@ const STARTER_TASKS: StarterTask[] = [
 const sanitizeUsername = (value: string) => value.trim().toLowerCase();
 const sanitizeIdentifier = (value: string) => value.trim().toLowerCase();
 const sanitizeEmail = (value?: string | null) => (value ? value.trim().toLowerCase() : null);
+const isValidTimeZone = (value?: string | null) => {
+  if (!value) return false;
+  try {
+    new Intl.DateTimeFormat("en-US", { timeZone: value });
+    return true;
+  } catch {
+    return false;
+  }
+};
 
 async function seedStarterContent(
   tx: Prisma.TransactionClient,
@@ -146,6 +155,10 @@ router.post("/register-parent", async (req, res) => {
     familyName?: string;
     parent?: { name?: string; email?: string; username?: string; password?: string };
   };
+  const headerTimezone =
+    typeof req.headers["x-timezone"] === "string" && isValidTimeZone(req.headers["x-timezone"])
+      ? (req.headers["x-timezone"] as string)
+      : null;
 
   if (!familyName || !parent) {
     return res
@@ -175,10 +188,11 @@ router.post("/register-parent", async (req, res) => {
   }
 
   const passwordHash = await hashPassword(password);
+  const familyTimezone = headerTimezone || "UTC";
 
   const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const family = await tx.family.create({
-      data: { name: familyName },
+      data: { name: familyName, timezone: familyTimezone },
     });
 
     const createdParent = await tx.user.create({
@@ -352,21 +366,25 @@ router.get("/me", authMiddleware, async (req: AuthenticatedRequest, res) => {
   };
 
   if (userRecord.role === UserRole.CHILD) {
-    profile.progress = await childProgressSnapshot(userRecord.id);
+    profile.progress = await childProgressSnapshot(
+      userRecord.id,
+      req.user?.familyTimezone ?? "UTC",
+    );
   }
 
   return res.json(profile);
 });
 
 router.patch("/me", authMiddleware, async (req: AuthenticatedRequest, res) => {
-  const { name, avatarTone, currentPassword, newPassword } = req.body as {
+  const { name, avatarTone, currentPassword, newPassword, familyTimezone } = req.body as {
     name?: string;
     avatarTone?: string | null;
     currentPassword?: string;
     newPassword?: string;
+    familyTimezone?: string;
   };
 
-  if (!name && typeof avatarTone === "undefined" && !newPassword) {
+  if (!name && typeof avatarTone === "undefined" && !newPassword && !familyTimezone) {
     return res.status(400).json({ error: "No updates provided" });
   }
 
@@ -412,6 +430,19 @@ router.patch("/me", authMiddleware, async (req: AuthenticatedRequest, res) => {
       avatarTone: true,
     },
   });
+
+  if (familyTimezone) {
+    if (req.user?.role !== UserRole.PARENT) {
+      return res.status(403).json({ error: "Only parents can change family timezone" });
+    }
+    if (!isValidTimeZone(familyTimezone)) {
+      return res.status(400).json({ error: "Invalid timezone" });
+    }
+    await prisma.family.update({
+      where: { id: userRecord.familyId! },
+      data: { timezone: familyTimezone },
+    });
+  }
 
   return res.json(updated);
 });
@@ -604,7 +635,7 @@ router.get(
     const overview = await Promise.all(
       members.map(async (member) => {
         if (member.role === UserRole.CHILD) {
-          const progress = await childProgressSnapshot(member.id);
+          const progress = await childProgressSnapshot(member.id, req.user?.familyTimezone ?? "UTC");
           return {
             ...member,
             stats: {

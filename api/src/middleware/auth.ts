@@ -14,6 +14,7 @@ export interface AuthenticatedRequest extends Request {
     id: string;
     role: UserRole;
     familyId?: string | null;
+    familyTimezone?: string | null;
   };
 }
 
@@ -40,6 +41,7 @@ export async function authMiddleware(
         id: true,
         role: true,
         familyId: true,
+        family: { select: { timezone: true } },
       },
     });
 
@@ -51,6 +53,7 @@ export async function authMiddleware(
       id: user.id,
       role: user.role,
       familyId: user.familyId,
+      familyTimezone: user.family?.timezone ?? null,
     };
 
     next();

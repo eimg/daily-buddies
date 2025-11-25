@@ -6,11 +6,20 @@ type FetchOptions = {
   token?: string | null;
 };
 
+const CLIENT_TIMEZONE =
+  typeof Intl !== "undefined" && Intl.DateTimeFormat().resolvedOptions
+    ? Intl.DateTimeFormat().resolvedOptions().timeZone
+    : undefined;
+
 async function request<T>(path: string, options: FetchOptions = {}): Promise<T> {
   const { method = "GET", body, token } = options;
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
+
+  if (CLIENT_TIMEZONE) {
+    headers["X-Timezone"] = CLIENT_TIMEZONE;
+  }
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;
@@ -43,6 +52,7 @@ export type UserSummary = {
   family?: {
     id: string;
     name: string;
+    timezone?: string;
   } | null;
   progress?: {
     seedBalance: number;
@@ -102,7 +112,13 @@ export async function fetchProfile(token: string) {
 
 export async function updateProfile(
   token: string,
-  payload: { name?: string; avatarTone?: string | null; currentPassword?: string; newPassword?: string },
+  payload: {
+    name?: string;
+    avatarTone?: string | null;
+    currentPassword?: string;
+    newPassword?: string;
+    familyTimezone?: string;
+  },
 ) {
   return request<UserSummary>("/auth/me", {
     method: "PATCH",
